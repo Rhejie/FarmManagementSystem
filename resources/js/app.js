@@ -30,6 +30,7 @@ Vue.prototype.$EventDispatcher = new EventDispatcher();
 Vue.prototype.$API = API;
 Vue.prototype.$df = new DateFormatter();
 
+
 Vue.use(ElementUI, { locale, size: "small" });
 
 Vue.config.productionTip = false;

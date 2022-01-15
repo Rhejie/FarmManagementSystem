@@ -110,7 +110,7 @@
             <li class="nav-item">
                 <a href="/deploy#/deploy" class="nav-link {{ Route::is('deploy.index') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-box-open"></i>
-                    <p>Deploy</p>
+                    <p>Deploy Stocks</p>
                 </a>
             </li>
             <li class="nav-header">QR CODE</li>

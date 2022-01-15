@@ -27,6 +27,7 @@ class CreateEmployeesTable extends Migration
             $table->text('profile')->nullable();
             $table->text('profile_path')->nullable();
             $table->text('profile_name')->nullable();
+            $table->string('qrcode')->nullable();
             $table->timestamps();
         });
     }

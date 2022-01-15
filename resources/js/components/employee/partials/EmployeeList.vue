@@ -30,6 +30,11 @@
                             </template>
                     </el-table-column>
                     <el-table-column
+                        prop="qrcode"
+                        label="QRCODE"
+                        :sortable="true">
+                    </el-table-column>
+                    <el-table-column
                         prop="firstname"
                         label="FIRST NAME"
                         :sortable="true">

@@ -35,7 +35,7 @@
                     <el-time-select
                         v-model="form.time_in"
                         :picker-options="{
-                            start: '00:00',
+                            start: '06:00',
                             step: '00:15',
                             end: '24:00'
                         }"

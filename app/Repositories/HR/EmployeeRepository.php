@@ -7,8 +7,9 @@ use App\Repositories\Repository;
 
 class EmployeeRepository extends Repository {
 
-    public function __construct(Employee $model) {
-
+    private $qrCodeRepository;
+    public function __construct(Employee $model, QrCodeRepository $qrCodeRepository) {
+        $this->qrCodeRepository = $qrCodeRepository;
         parent::__construct($model);
 
     }
@@ -52,6 +53,9 @@ class EmployeeRepository extends Repository {
         $data->contact = $request->contact;
         $data->position = $request->position;
         $data->address = $request->address;
+        $data->qrcode = $request->qrcode;
+
+
 
         if($request->hasFile('file')) {
             $folder = '/employee/profile/';
@@ -63,6 +67,8 @@ class EmployeeRepository extends Repository {
             $data->profile_path = $folder;
             $data->profile_name = $request->file_name;
         }
+
+        $this->qrCodeRepository->updateQrCodeData($data->qrcode);
 
         if($data->save()) {
 

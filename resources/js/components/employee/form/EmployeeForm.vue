@@ -2,6 +2,12 @@
 
     <el-form :model="form" :rules="rules" ref="form" label-position="top" label-width="120px" class="demo-ruleForm">
         <div class="row">
+            <div class="col-md-12">
+                <el-button style="float:right" @click="verfiedQr" :loading="loadingVerifed" :disabled="verify">Verified QRCode</el-button>
+                <el-form-item label="QRCode" prop="qrcode">
+                    <el-input v-model="form.qrcode" :disabled="verify" placeholder="QRCode"></el-input>
+                </el-form-item>
+            </div>
             <div class="col-md-6">
                 <el-form-item label="First Name" prop="firstname">
                     <el-input v-model="form.firstname" placeholder="First Name"></el-input>
@@ -86,6 +92,19 @@ export default {
         model: {}
     },
     data() {
+        var checkQrCode = (rule, value, callback) => {
+            if (!value) {
+                return callback(new Error('Please input the qrcode'));
+            }
+            else {
+                if(!this.verify) {
+                    return callback(new Error('Please the qrcode is not registed'));
+                }
+                else {
+                    callback();
+                }
+            }
+        };
         return {
             form: {
                 firstname: '',
@@ -96,7 +115,8 @@ export default {
                 birthday: '',
                 address: '',
                 contact: '',
-                position: ''
+                position: '',
+                qrcode: ''
             },
             rules : {
                 firstname: [
@@ -107,6 +127,9 @@ export default {
                 ],
                 lastname: [
                     { required: true, message: 'Please input last name', trigger: 'blur' }
+                ],
+                qrcode: [
+                    { validator: checkQrCode, trigger: 'blur' }
                 ],
                 gender: [
                     { required: true, message: 'Please select gender', trigger: 'blur' }
@@ -125,7 +148,9 @@ export default {
                     { required: true, message: 'Please input position', trigger: 'blur' }
                 ],
             },
-            fileList: []
+            fileList: [],
+            verify: false,
+            loadingVerifed: false
         }
     },
     created() {
@@ -149,6 +174,7 @@ export default {
                 position: this.model.position,
                 address: this.model.address,
                 contact: this.model.contact,
+                qrcode: this.model.qrcode
             }
         }
         else {
@@ -176,6 +202,7 @@ export default {
             this.$refs[formName].resetFields();
         },
         initializeForm() {
+            this.verify = false;
             this.form = {
                 firstname: '',
                 middlename: '',
@@ -201,6 +228,7 @@ export default {
                 if(this.form.position)formData.append('position', this.form.position);
                 if(this.form.address)formData.append('address', this.form.address);
                 if(this.form.contact)formData.append('contact', this.form.contact);
+                if(this.form.qrcode)formData.append('qrcode', this.form.qrcode);
                 if(this.form.file)formData.append('file', this.form.file);
                 if(this.form.file_name)formData.append('file_name', this.form.file_name);
 
@@ -237,6 +265,7 @@ export default {
 
                 const res = await this.$API.Employee.updateEmployee(this.model.id, formData);
                 this.$EventDispatcher.fire('UPDATE_EMPLOYEE', res.data);
+                this.verify = false
                 this.$notify({
                     title: 'Success',
                     message: 'Successfully updated',
@@ -244,6 +273,35 @@ export default {
                 });
             } catch (error) {
                 console.log(error);
+            }
+        },
+        async verfiedQr() {
+            if(this.form.qrcode) {
+                try {
+                    this.loadingVerifed = true;
+                    const res = await this.$API.QrCode.verifiedQrCode(this.form.qrcode);
+                    if(res.data == 'ready_use') {
+                        this.verify = true;
+                    }
+                    else if(res.data == 'already_use') {
+                        this.$notify.error({
+                            title: 'Error',
+                            message: 'The QR Code already used!'
+                        });
+                        this.verify = false;
+                    }
+                    else {
+                        this.$notify.error({
+                            title: 'Error',
+                            message: 'The QR Code is not yet registered!'
+                        });
+                        this.verify = false;
+                    }
+
+                    this.loadingVerifed = false;
+                } catch (error) {
+                    console.log(error);
+                }
             }
         },
         isNumber(evt) {
@@ -272,6 +330,7 @@ export default {
     watch: {
         mode(value) {
             if(value == 'create') {
+                this.verify = false
                 this.initializeForm()
             }
         },
@@ -283,6 +342,7 @@ export default {
                 else {
                     this.fileList = []
                 }
+                this.verify = true;
                 this.form = {
                     firstname: newVal.firstname,
                     middlename: newVal.middlename,
@@ -293,6 +353,7 @@ export default {
                     address: newVal.address,
                     contact: newVal.contact,
                     position: newVal.position,
+                    qrcode: newVal.qrcode,
                 }
             }
         }
