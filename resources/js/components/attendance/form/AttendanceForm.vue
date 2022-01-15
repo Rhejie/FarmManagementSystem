@@ -120,6 +120,7 @@ export default {
                         title: 'Error',
                         message: 'Already Time In'
                     });
+                    this.resetForm('form');
                     return
                 }
                 this.$EventDispatcher.fire('NEW_DATA', res.data);

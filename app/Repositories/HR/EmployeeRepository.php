@@ -142,4 +142,14 @@ class EmployeeRepository extends Repository {
         }
 
     }
+
+    public function findEmployeeByQrCode($qrcode) {
+
+        $employee = $this->model()->where('qrcode', $qrcode)->first();
+        if(empty($employee)) {
+            return 'no_employee';
+        }
+        return $employee;
+
+    }
 }

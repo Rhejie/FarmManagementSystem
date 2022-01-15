@@ -108,6 +108,12 @@
                 </a>
             </li> --}}
             <li class="nav-item">
+                <a href="/deploy-employee#/deploy-employees" class="nav-link {{ Route::is('deploy-employee.index') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-user"></i>
+                    <p>Deploy Employee</p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="/deploy#/deploy" class="nav-link {{ Route::is('deploy.index') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-box-open"></i>
                     <p>Deploy Stocks</p>
@@ -124,6 +130,12 @@
                 <a href="/qr-code#/codes" class="nav-link {{ Route::is('qr-code.index') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-qrcode"></i>
                     <p>QR Codes</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/scanner" target="_blank" class="nav-link {{ Route::is('qr-code.index') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-qrcode"></i>
+                    <p>Scanner</p>
                 </a>
             </li>
             <li class="nav-header">Area</li>

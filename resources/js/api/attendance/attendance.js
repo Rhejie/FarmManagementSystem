@@ -10,6 +10,9 @@ export default {
     },
     updateAttendance(id, data) {
         return axios.post(`/attendance/update-attendance/${id}`, data)
+    },
+    qrCode(decodedString) {
+        return axios.post(`/attendance/time-in?qrcode=${decodedString}`)
     }
 
 }

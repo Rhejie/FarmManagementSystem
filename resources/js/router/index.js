@@ -122,6 +122,20 @@ export default new VueRouter({
                     component: () => import('../components/qrcode/QrcodeIndex.vue')
                 }
             ]
+        },
+        {
+            path: '/deploy-employee',
+            name: 'Deploy Employee Main Component',
+            props: true,
+            component: () => import('../components/deploy_employee/DeployEmployeeMainComponent.vue'),
+            children: [
+                {
+                    path: '/deploy-employees',
+                    name: 'Deploy Employee List',
+                    props: false,
+                    component: () => import('../components/deploy_employee/DeployEmployeeIndex.vue')
+                }
+            ]
         }
     ]
 })

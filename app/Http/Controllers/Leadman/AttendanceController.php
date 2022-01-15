@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Leadman;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\HR\EmployeeRepository;
 use App\Repositories\Leadman\AttendanceRepository;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
     private $attendanceRepository;
-    public function __construct(AttendanceRepository $attendanceRepository) {
+    private $employeeRepository;
+    public function __construct(AttendanceRepository $attendanceRepository, EmployeeRepository $employeeRepository) {
 
         $this->attendanceRepository = $attendanceRepository;
+        $this->employeeRepository = $employeeRepository;
 
     }
 
@@ -37,6 +40,7 @@ class AttendanceController extends Controller
 
         $attendance =$this->attendanceRepository->getAttendance(json_decode(json_encode($params)));
 
+
         return response()->json($attendance, 200);
 
     }
@@ -55,5 +59,29 @@ class AttendanceController extends Controller
 
         return response()->json($attendance, 200);
 
+    }
+
+    public function timeIn(Request $request) {
+
+        $qrcode = $request->qrcode ? $request->qrcode : null;
+
+        if(!$qrcode) {
+            return 'no_qrcode';
+        }
+
+        $employee = $this->employeeRepository->findEmployeeByQrCode($qrcode);
+
+        if($employee == 'no_employee') {
+
+            return  'no_employee';
+        }
+
+        $params = [
+            'employee' => json_decode(json_encode($employee)),
+        ];
+
+        $attendance = $this->attendanceRepository->attendanceByQr(json_decode(json_encode($params)));
+
+        return response()->json($attendance, 200);
     }
 }

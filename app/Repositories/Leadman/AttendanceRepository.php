@@ -90,4 +90,50 @@ class AttendanceRepository extends Repository {
         }
 
     }
+
+    public function attendanceByQr($params) {
+        date_default_timezone_set('Asia/Manila');
+
+        $date_now = carbon::now()->format('Y-m-d');
+        $time_now = Carbon::now()->format('H:i:s');
+
+        $attendance = $this->model()->where('date', $date_now)->where('employee_id', $params->employee->id)->first();
+
+        if(empty($attendance)) {
+            $newAttendance = new $this->model();
+            $newAttendance->date = $date_now;
+            $newAttendance->employee_id = $params->employee->id;
+            $newAttendance->time_in = $time_now;
+            if($newAttendance->save()) {
+                return 'success_in';
+            }
+        }
+        else {
+
+            if(!$attendance->time_in) {
+
+                $attendance->time_in = $time_now;
+
+                if($attendance->save()) {
+                    return 'success_in';
+                }
+            }
+            else if(!$attendance->time_out) {
+
+                $attendance->time_out = $time_now;
+
+                if($attendance->save()) {
+                    return 'success_out';
+                }
+
+            }
+            else {
+
+                return 'already_time_in_out';
+
+            }
+
+        }
+
+    }
 }
