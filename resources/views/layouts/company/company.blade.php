@@ -226,7 +226,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('vendors/dist/js/demo.js')}}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="{{ asset('vendors/dist/js/pages/dashboard.js')}}"></script>
+    {{--<script src="{{ asset('vendors/dist/js/pages/dashboard.js')}}"></script> --}}
     <script src="{{ asset('js/app.js') }}" defer></script>
     </body>
 </html>

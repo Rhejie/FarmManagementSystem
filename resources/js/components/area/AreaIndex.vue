@@ -29,15 +29,37 @@
     </div>
 </template>
 <script>
+
 export default {
     name: 'AreaIndex',
     data() {
         return {
-
+            coordinates: {
+                lat: 0,
+                lng: 0
+            },
+            noLocation: true
         }
     },
     created() {
-
+        // this.$getLocation()
+        //     .then(coordinates => {
+        //         console.log(coordinates);
+        //     });
+        this.getLocation();
+    },
+    methods: {
+        async getLocation() {
+            try {
+                const coordinates = await this.$getLocation({
+                    enableHighAccuracy: true
+                });
+                this.coordinates = coordinates;
+                this.noLocation = false;
+            } catch (error) {
+                console.log(error);
+            }
+        },
     },
 }
 </script>

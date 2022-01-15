@@ -4,6 +4,7 @@ import Area from './area/area';
 import Attendance from './attendance/attendance'
 import QrCode from './qrcode/qrcode'
 import Deploy from './attendance/deploy_employee'
+import Finance from './finance/finance'
 
 export default {
     Employee,
@@ -11,5 +12,6 @@ export default {
     Area,
     Attendance,
     QrCode,
-    Deploy
+    Deploy,
+    Finance
 }

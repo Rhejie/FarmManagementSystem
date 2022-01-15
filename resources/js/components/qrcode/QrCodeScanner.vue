@@ -4,6 +4,13 @@
             @decode="onDecode"
             @error="onError">
         </ImageBarcodeReader>
+
+        <!--
+            <StreamBarcodeReader
+                @decode="onDecode"
+                @loaded="onLoaded"
+            ></StreamBarcodeReader>
+        -->
     </div>
 </template>
 <script>

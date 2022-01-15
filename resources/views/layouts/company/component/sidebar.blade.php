@@ -81,6 +81,36 @@
                 <p>Employees</p>
                 </a>
             </li>
+            {{-- <li class="nav-item">
+                <a href="/payroll#/payrolls" class="nav-link {{ Route::is('payroll.index') ? 'active' : '' }}">
+                <i class="fas fa-users nav-icon"></i>
+                <p>Payroll</p>
+                </a>
+            </li> --}}
+            <li class="nav-item  {{ Route::is('payroll.index') ? 'menu-is-opening menu-open' : '' }}
+            {{ Route::is('company.jobs') ? 'menu-is-opening menu-open' : '' }}">
+                <a href="#" class="nav-link {{ Route::is('payroll.index') ? 'active' : '' }} {{ Route::is('company.jobs') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-address-card"></i>
+                <p>
+                    PAYROLL
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+                </a>
+                <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="/payroll#/payrolls" class="nav-link">
+                    <i class="far fa-copy nav-icon"></i>
+                    <p>Payroll</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/payroll#/generate" class="nav-link">
+                    <i class="far fa-copy nav-icon"></i>
+                    <p>Generate</p>
+                    </a>
+                </li>
+                </ul>
+            </li>
             <li class="nav-header">STOCKS</li>
             <li class="nav-item">
                 <a href="/stocks#/stocks" class="nav-link {{ Route::is('warehouse.stock') ? 'active' : '' }}">
@@ -133,7 +163,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/scanner" target="_blank" class="nav-link {{ Route::is('qr-code.index') ? 'active' : '' }}">
+                <a href="/scanner" target="_blank" class="nav-link">
                     <i class="nav-icon fas fa-qrcode"></i>
                     <p>Scanner</p>
                 </a>

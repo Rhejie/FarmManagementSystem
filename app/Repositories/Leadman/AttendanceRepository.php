@@ -136,4 +136,46 @@ class AttendanceRepository extends Repository {
         }
 
     }
+
+    public function geAttendanceByIDdate($request) {
+
+        $attendance = $this->model()->where('employee_id', $request->employee_id)
+            ->where('date', '>=', $request->date_from)
+            ->where('date', '<=', $request->date_to)
+            ->get();
+
+        $attendance = $attendance->map(function($data) {
+
+            $time_date_in = new Carbon($data->date." ".$data->time_in);
+            $time_date_out = new Carbon($data->date." ".$data->time_out);
+
+            $diff_in_hours = $time_date_in->diffInHours($time_date_out);
+
+            $data->total_hours = $diff_in_hours;
+
+            $data->date_time_in = $time_date_in;
+            $data->date_time_out = $time_date_out;
+
+            if($diff_in_hours == 9) {
+                $data->status = 'Full';
+            }
+            if($diff_in_hours == 4) {
+                $data->status = 'Half Day';
+            }
+            if($diff_in_hours < 4 || $diff_in_hours < 9) {
+                $data->status = 'Under Time';
+            }
+
+            return $data;
+        });
+
+        $data = [
+            'attendance' => $attendance,
+            'employee' => $request
+        ];
+
+        return $data;
+
+
+    }
 }

@@ -41,7 +41,11 @@ class AreaController extends Controller
 
     public function storeArea(Request $request) {
 
-        $area = $this->areaRepository->storeArea(json_decode(json_encode($request->all())));
+        $ip = $request->ip();
+
+        $data = \Location::get($ip);
+
+        $area = $this->areaRepository->storeArea(json_decode(json_encode($request->all())), $data);
 
         return response()->json($area, 200);
 

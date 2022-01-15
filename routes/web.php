@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth'], function () {
     require_once base_path('routes/moduleRoutes/deploy.php');
     require_once base_path('routes/moduleRoutes/qrcode.php');
     require_once base_path('routes/moduleRoutes/deploy-employee.php');
+    require_once base_path('routes/moduleRoutes/finance.php');
 
     Route::get('/scanner', function () {
 

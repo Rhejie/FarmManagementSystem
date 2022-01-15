@@ -15,6 +15,8 @@ files.keys().map(key =>
         files(key).default
     )
 );
+import VueGeolocation from 'vue-browser-geolocation';
+Vue.use(VueGeolocation);
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import "element-ui/lib/theme-chalk/display.css";
@@ -24,12 +26,12 @@ import EventDispatcher from "./service/EventDispatcher.js";
 import API from "./api/index.js";
 import DateFormatter from "./service/DateFormatter";
 
+
 import router from "./router";
 
 Vue.prototype.$EventDispatcher = new EventDispatcher();
 Vue.prototype.$API = API;
 Vue.prototype.$df = new DateFormatter();
-
 
 Vue.use(ElementUI, { locale, size: "small" });
 

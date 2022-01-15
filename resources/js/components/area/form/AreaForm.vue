@@ -26,6 +26,8 @@ export default {
         return {
             form: {
                 name: '',
+                lat: 0,
+                lng: 0,
             },
             rules : {
                 name: [
@@ -35,6 +37,7 @@ export default {
         }
     },
     created() {
+
         this.$EventDispatcher.listen('CLOSE_MODAL', () => {
             this.resetForm('form');
         })

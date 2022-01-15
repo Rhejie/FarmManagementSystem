@@ -34,10 +34,22 @@ class AreaRepository extends Repository {
 
     }
 
-    public function storeArea($request) {
+    public function storeArea($request, $location) {
 
         $data = new $this->model();
+
+        if(!$location) {
+            $lat = 0;
+            $lng = 0;
+        }
+        else {
+            $lat = $location->latitude;
+            $lng = $location->longitude;
+        }
+
         $data->name = $request->name;
+        $data->lat = $lat;
+        $data->lng = $lng;
         if($data->save()) {
             return $data;
         }

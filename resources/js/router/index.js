@@ -136,6 +136,26 @@ export default new VueRouter({
                     component: () => import('../components/deploy_employee/DeployEmployeeIndex.vue')
                 }
             ]
+        },
+        {
+            path : '/payroll',
+            name: 'Payroll Main Component',
+            props: true,
+            component: () => import('../components/finance/FinanceMainComponent.vue'),
+            children: [
+                {
+                    path: '/payrolls',
+                    name: 'Payroll List',
+                    props: true,
+                    component: () => import('../components/finance/FinanceIndex.vue')
+                },
+                {
+                    path: '/generate',
+                    name: 'Generate Payroll',
+                    props: true,
+                    component: () => import('../components/finance/form/GeneratePayroll.vue')
+                }
+            ]
         }
     ]
 })
