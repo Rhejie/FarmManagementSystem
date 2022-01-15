@@ -5,6 +5,7 @@ import Attendance from './attendance/attendance'
 import QrCode from './qrcode/qrcode'
 import Deploy from './attendance/deploy_employee'
 import Finance from './finance/finance'
+import Harvest from './harvest/harvest'
 
 export default {
     Employee,
@@ -13,5 +14,6 @@ export default {
     Attendance,
     QrCode,
     Deploy,
-    Finance
+    Finance,
+    Harvest
 }

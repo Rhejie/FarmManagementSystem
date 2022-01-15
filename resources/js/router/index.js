@@ -156,6 +156,20 @@ export default new VueRouter({
                     component: () => import('../components/finance/form/GeneratePayroll.vue')
                 }
             ]
+        },
+        {
+            path: '/harve',
+            name: 'Harvest Main Component',
+            props: true,
+            component: () => import('../components/harvest/HarvestMainComponent.vue'),
+            children: [
+                {
+                    path: '/harvest',
+                    name: 'Harvest List',
+                    props: true,
+                    component: () => import('../components/harvest/HarvestIndex.vue')
+                }
+            ]
         }
     ]
 })

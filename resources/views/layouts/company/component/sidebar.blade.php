@@ -149,6 +149,19 @@
                     <p>Deploy Stocks</p>
                 </a>
             </li>
+            <li class="nav-header">PRODUCTION</li>
+            {{-- <li class="nav-item">
+                <a href="/company/profile" class="nav-link {{ Route::is('company.profile') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-user"></i>
+                <p>Profile</p>
+                </a>
+            </li> --}}
+            <li class="nav-item">
+                <a href="/harvest#/harvest" class="nav-link {{ Route::is('harvest.index') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-cart-arrow-down"></i>
+                    <p>Harvest</p>
+                </a>
+            </li>
             <li class="nav-header">QR CODE</li>
             {{-- <li class="nav-item">
                 <a href="/company/profile" class="nav-link {{ Route::is('company.profile') ? 'active' : '' }}">
