@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Finance;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\Finance\PayrollRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use PDF;
 
 class FinanceController extends Controller
 {
@@ -57,5 +59,36 @@ class FinanceController extends Controller
 
         return response()->json($payroll, 200);
 
+    }
+
+    public function generatePayslip($id) {
+
+        $payroll = $this->payrollRepository->generatePayslip($id);
+        $salary = 0;
+        $hours = 0 ;
+        foreach ($payroll->item as $item) {
+            $salary += $item->salary;
+            $hours += $item->hours - 1;
+
+        }
+
+        $data = [
+            'name' => $payroll->employee->lastname.", ".$payroll->employee->firstname." ".$payroll->employee->middlename,
+            'date' => Carbon::now()->format('Y-m-d'),
+            'salary' => $salary,
+            'hours' => $hours,
+            'from' => $payroll->from_date,
+            'to' => $payroll->to_date,
+            'rate' => $payroll->rate,
+            'items' => $payroll->item,
+
+        ];
+
+        $pdf = PDF::loadView('payslip', $data);
+
+
+
+
+        return $pdf->download($payroll->employee->lastname.'-payslip.pdf');
     }
 }

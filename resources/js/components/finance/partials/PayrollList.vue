@@ -67,10 +67,11 @@
                     </el-table-column>
                     <el-table-column
                         fixed="right"
-                        width="110"
+                        width="180"
                         label="ACTION">
                         <template slot-scope="scope">
-                            <button @click="handleEdit(scope.row)" class="btn btn-success btn-sm">Payslip</button>
+                            <a :href="`finance/payslip/${scope.row.id}`" class="btn btn-info btn-sm" target="_blank">Payslip</a>
+                            <button @click="handleView(scope.row)" class="btn btn-success btn-sm">View</button>
                         </template>
                     </el-table-column>
             </el-table>
@@ -83,13 +84,16 @@
                 @handleCurrentChange="handleCurrentChange">
             </global-pagination>
         </div>
+        <el-dialog title="Payroll" width="45%" :visible.sync="dialogTableVisible" :before-close="handleClose">
+            <view-payroll :model="model"></view-payroll>
+        </el-dialog>
     </el-card>
 </template>
 <script>
 import paginate from '../../../mixin/pagination'
 import moment from 'moment'
 export default {
-    name: 'CategoryList',
+    name: 'PayrollList',
     mixins: [paginate],
     data() {
         return {
@@ -190,6 +194,10 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+        handleView(data) {
+            this.model = {...data}
+            this.dialogTableVisible = true;
         },
         handleClose(done) {
             this.$EventDispatcher.fire('CLOSE_MODAL')

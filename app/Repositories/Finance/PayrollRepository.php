@@ -21,7 +21,7 @@ class PayrollRepository extends Repository {
 
     public function getPayrolls($params) {
 
-        $payrolls = $this->model()->with(['employee'])
+        $payrolls = $this->model()->with(['employee', 'item'])
             ->where(\DB::raw("(DATE_FORMAT(to_date,'%d-%m-%Y'))"), (new Carbon($params->date))->format('d-m-Y'));
 
             if($params->search) {
@@ -90,6 +90,15 @@ class PayrollRepository extends Repository {
         $attendance = $this->attendanceRepository->geAttendanceByIDdate($request);
 
         return $attendance;
+
+    }
+
+    public function generatePayslip($id) {
+
+
+        $payroll = $this->model()->with(['employee', 'item'])->find($id);
+
+        return $payroll;
 
     }
 }

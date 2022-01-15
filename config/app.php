@@ -176,6 +176,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Stevebauman\Location\LocationServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -232,6 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'QrCodeGenerator' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'Location' => 'Stevebauman\Location\Facades\Location',
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 
