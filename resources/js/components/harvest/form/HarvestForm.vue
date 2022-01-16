@@ -27,6 +27,7 @@
                     <el-date-picker
                         v-model="form.date"
                         type="date"
+                        style="width:100%"
                         format="yyyy-MM-dd"
                         value-format="yyyy-MM-dd"
                         placeholder="Select date">
@@ -37,7 +38,6 @@
                 <el-form-item label="Stem Cut" prop="stem_cut">
                     <el-input v-model="form.stem_cut" type="number" placeholder="Quantity"></el-input>
                 </el-form-item>
-
             </div>
             <div class="col-md-12">
                 <el-form-item style="float:right">

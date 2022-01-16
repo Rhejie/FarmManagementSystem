@@ -2,21 +2,21 @@
     <el-card class="box-card" style="margin-bottom: 10px;">
         <div  class="text item">
             <el-form :inline="true" :model="form" :rules="rules" ref="form" class="demo-form-inline">
-                <el-form-item label="Employee" prop="employee_id">
+                <el-form-item label="Team" prop="team_id">
                     <el-select
-                        v-model="form.employee_id"
+                        v-model="form.team_id"
                         filterable
                         remote
                         style="width:340px"
                         reserve-keyword
                         @change="attendanceChange"
-                        placeholder="Please enter a keyword to search employee"
-                        :remote-method="remoteMethodEmployee"
+                        placeholder="Please enter a keyword to search teams"
+                        :remote-method="remoteMethodTeam"
                         :loading="loading">
                             <el-option
-                                v-for="item in employees"
+                                v-for="item in teams"
                                 :key="item.id"
-                                :label="`${item.lastname}, ${item.firstname} ${item.middlename}`"
+                                :label="item.name"
                                 :value="item.id">
                             </el-option>
                     </el-select>
@@ -64,9 +64,10 @@ export default {
     data() {
         return {
             form: {
-                employee_id: '',
+                team_id: '',
                 area_id: '',
                 date: '',
+                members: []
             },
             rules : {
                 area_id: [
@@ -75,11 +76,11 @@ export default {
                 date: [
                     { required: true, message: 'Please input date', trigger: 'blur' }
                 ],
-                employee_id: [
+                team_id: [
                     { required: true, message: 'Please select employee', trigger: 'blur' }
                 ],
             },
-            employees: [],
+            teams: [],
             loading: false,
             areas: [],
             loadingArea: false,
@@ -102,20 +103,22 @@ export default {
         resetForm(formName) {
             this.$refs[formName].resetFields();
         },
-        async remoteMethodEmployee(query) {
+        async remoteMethodTeam(query) {
             try {
                 if(query !== '') {
                     this.loading = true;
-                    const res = await this.$API.Employee.searchEmployee(query);
-                    this.employees = res.data;
+                    const res = await this.$API.Team.searchTeam(query);
+                    this.teams = res.data;
                     this.loading = false;
                 }
             } catch (error) {
                 console.log(error);
             }
         },
-        attendanceChange() {
-            this.employees = []
+        attendanceChange(value) {
+            let team = this.teams.find(t => t.id == value);
+            this.form.members = team.employees
+            this.teams = []
         },
         async remoteMethodArea(query) {
             try {

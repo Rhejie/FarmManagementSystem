@@ -93,6 +93,7 @@ export default {
             });
         },
         resetForm(formName) {
+            this.$EventDispatcher.fire('RESET_FORM', 'reset');
             this.$refs[formName].resetFields();
         },
         async remoteMethodEmployee(query) {

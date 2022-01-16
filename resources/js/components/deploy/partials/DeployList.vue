@@ -1,7 +1,7 @@
 <template>
     <el-card class="box-card">
         <div  class="text item">
-            <el-button size="mini" type="primary" @click="addDeploy" style="float:right;">Deploy</el-button>
+            <!--<el-button size="mini" type="primary" @click="addDeploy" style="float:right;">Deploy</el-button> -->
             <el-input
                 size="mini"
                 placeholder="Search here....."
@@ -55,7 +55,7 @@
                         label="AREA"
                         :sortable="true">
                     </el-table-column>
-                    <el-table-column
+                    <!--<el-table-column
                         fixed="right"
                         width="120"
                         label="ACTION">
@@ -63,7 +63,7 @@
                             <button @click="handleEdit(scope.row)" class="btn btn-success btn-sm"><i class="far fa-edit"></i></button>
                             <button @click="askToDelete(scope.$index, scope.row)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                         </template>
-                    </el-table-column>
+                    </el-table-column> -->
             </el-table>
 
             <global-pagination

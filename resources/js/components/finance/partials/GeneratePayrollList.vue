@@ -13,46 +13,48 @@
             element-loading-background="rgba(0, 0, 0, 0.8)"
             :data="payroll"
             style="width: 100%">
-                <el-table-column
-                    prop="date"
-                    label="DATE">
-                        <template slot-scope="scope">
-                            {{scope.row.date | fileDate}}
-                        </template>
-                </el-table-column>
-                <el-table-column
-                    prop="status"
-                    label="STATUS">
-                        <template slot-scope="scope">
-                            <template v-if="scope.row.status == 'Full'">
-                                <el-tag type="success" effect="dark">{{scope.row.status}}</el-tag>
+                <el-table-column label="REGULAR HOURS">
+                    <el-table-column
+                        prop="date"
+                        label="DATE">
+                            <template slot-scope="scope">
+                                {{scope.row.date | fileDate}}
                             </template>
-                            <template v-if="scope.row.status == 'Under Time'">
-                                <el-tag type="primary" effect="dark">{{scope.row.status}}</el-tag>
+                    </el-table-column>
+                    <el-table-column
+                        prop="status"
+                        label="STATUS">
+                            <template slot-scope="scope">
+                                <template v-if="scope.row.status == 'Full'">
+                                    <el-tag type="success" effect="dark">{{scope.row.status}}</el-tag>
+                                </template>
+                                <template v-if="scope.row.status == 'Under Time'">
+                                    <el-tag type="primary" effect="dark">{{scope.row.status}}</el-tag>
+                                </template>
+                                <template v-if="scope.row.status == 'Half Day'">
+                                    <el-tag type="warning" effect="dark">{{scope.row.status}}</el-tag>
+                                </template>
                             </template>
-                            <template v-if="scope.row.status == 'Half Day'">
-                                <el-tag type="warning" effect="dark">{{scope.row.status}}</el-tag>
+                    </el-table-column>
+                    <el-table-column
+                        prop="time_in"
+                        label="IN">
+                            <template slot-scope="scope">
+                                {{scope.row.time_in | timeFormat}}
                             </template>
-                        </template>
-                </el-table-column>
-                <el-table-column
-                    prop="time_in"
-                    label="IN">
-                        <template slot-scope="scope">
-                            {{scope.row.time_in | timeFormat}}
-                        </template>
-                </el-table-column>
-                <el-table-column
-                    prop="time_out"
-                    label="OUT">
-                        <template slot-scope="scope">
-                            {{scope.row.time_out | timeFormat}}
-                        </template>
-                </el-table-column>
-                <el-table-column
-                    prop="rate"
-                    label="RATE">
+                    </el-table-column>
+                    <el-table-column
+                        prop="time_out"
+                        label="OUT">
+                            <template slot-scope="scope">
+                                {{scope.row.time_out | timeFormat}}
+                            </template>
+                    </el-table-column>
+                    <el-table-column
+                        prop="rate"
+                        label="RATE">
 
+                    </el-table-column>
                 </el-table-column>
                     <!--<el-table-column
                         fixed="right"
@@ -63,6 +65,63 @@
                         </template>
                     </el-table-column> -->
         </el-table>
+
+        <el-input placeholder="Please input rate per hour for overtime" @change="changeRateOT" style="width:300px; margin-top: 20px" type="number" v-if="payroll.length > 0" v-model="rate_ot"></el-input>
+        <el-table
+            v-loading="loading"
+            element-loading-text="Loading..."
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.8)"
+            :data="payroll.filter(pay => pay.ot_in != null && pay.ot_out != null && pay.ot_status == 'Approved')"
+            style="width: 100%; margin-top: 20px">
+                <el-table-column label="OVERTIME">
+                    <el-table-column
+                        prop="date"
+                        label="DATE">
+                            <template slot-scope="scope">
+                                {{scope.row.date | fileDate}}
+                            </template>
+                    </el-table-column>
+                    <el-table-column
+                        prop="time_in"
+                        label="IN">
+                            <template slot-scope="scope">
+                                {{scope.row.ot_in | timeFormat}}
+                            </template>
+                    </el-table-column>
+                    <el-table-column
+                        prop="time_out"
+                        label="OUT">
+                            <template slot-scope="scope">
+                                {{scope.row.ot_out | timeFormat}}
+                            </template>
+                    </el-table-column>
+                    <el-table-column
+                        prop="total_hours_ot"
+                        label="HOURS">
+
+                    </el-table-column>
+                    <el-table-column
+                        prop="overtime_rate"
+                        label="RATE">
+
+                    </el-table-column>
+                </el-table-column>
+                    <!--<el-table-column
+                        fixed="right"
+                        width="110"
+                        label="ACTION">
+                        <template slot-scope="scope">
+                            <button :disabled="scope.row.is_double_pay" @click="handleDoublePay(scope.row)" class="btn btn-success btn-sm">Double Pay</button>
+                        </template>
+                    </el-table-column> -->
+        </el-table>
+
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-md-6">
+                <table></table>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -74,10 +133,16 @@ export default {
             loading: true,
             employee: {},
             rate: null,
+            rate_ot: null
         }
     },
     created() {
 
+        this.$EventDispatcher.listen('RESET_FORM', data => {
+            console.log(data)
+            this.payroll = []
+            this.loading = true
+        })
         this.$EventDispatcher.listen('NEW_GENERATE_PAYROLL', data => {
 
             this.payroll = data.attendance
@@ -85,6 +150,7 @@ export default {
             this.loading = false
 
         });
+
     },
     filters: {
         timeFormat(value) {
@@ -106,6 +172,13 @@ export default {
                     this.$notify.error({
                         title: 'Error',
                         message: 'Please input rate per day'
+                    });
+                    return;
+                }
+                if(!this.rate_ot || this.rate_ot === 0) {
+                    this.$notify.error({
+                        title: 'Error',
+                        message: 'Please input rate per hour for overtime'
                     });
                     return;
                 }
@@ -138,6 +211,14 @@ export default {
                 pay.rate = day * value;
                 pay.rate = pay.rate.toFixed(2)
 
+
+
+                return pay
+            })
+        },
+        changeRateOT(value) {
+            this.payroll = this.payroll.map(pay => {
+                pay.overtime_rate = value * parseFloat(pay.total_hours_ot)
                 return pay
             })
         },

@@ -22,11 +22,15 @@
                     </el-select>
                 </el-form-item>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <el-form-item label="Quantity" prop="quantity">
                     <el-input v-model="form.quantity" type="number" placeholder="Quantity"></el-input>
                 </el-form-item>
-
+            </div>
+            <div class="col-md-6">
+                <el-form-item label="Unit" prop="unit">
+                    <el-input v-model="form.unit" placeholder="Unit"></el-input>
+                </el-form-item>
             </div>
             <div class="col-md-12">
                 <el-form-item style="float:right">
@@ -48,11 +52,15 @@ export default {
         return {
             form: {
                 quantity: '',
-                item_id: ''
+                item_id: '',
+                unit: '',
             },
             rules : {
                 quantity: [
                     { required: true, message: 'Please input quantity', trigger: 'blur' }
+                ],
+                unit: [
+                    { required: true, message: 'Please input unit', trigger: 'blur' }
                 ],
                 item_id: [
                     { required: true, message: 'Please select item', trigger: 'blur' }
@@ -72,7 +80,8 @@ export default {
                 name: this.model.name,
                 item_id: `${this.model.item.name} (${this.model.item.category.name})`,
                 item_id_id: this.model.item_id,
-                quantity: this.model.quantity
+                quantity: this.model.quantity,
+                unit: this.model.unit,
             }
         }
     },
@@ -146,7 +155,8 @@ export default {
                     name: newVal.name,
                     item_id: `${newVal.item.name} (${newVal.item.category.name})`,
                     item_id_id: newVal.item_id,
-                    quantity: newVal.quantity
+                    quantity: newVal.quantity,
+                    unit: newVal.unit,
                 }
             }
         },
@@ -154,7 +164,8 @@ export default {
             if(val && val == 'create') {
                 this.form = {
                     quantity: '',
-                    item_id: ''
+                    item_id: '',
+                    unit: '',
                 }
             }
         }

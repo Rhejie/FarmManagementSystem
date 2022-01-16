@@ -16,17 +16,15 @@ class DeployEmployeeRepository extends Repository {
 
     public function getDeploy($params) {
 
-        $employee =$this->model()->with(['area', 'employee'])
+        $employee =$this->model()->with(['area', 'team'])
         ->where(\DB::raw("(DATE_FORMAT(date,'%d-%m-%Y'))"), (new Carbon($params->date))->format('d-m-Y'));
 
         if($params->search) {
 
             $employee = $employee->where(function ($query) use ($params) {
-                $query->whereHas('employee', function ($query) use ($params) {
+                $query->whereHas('team', function ($query) use ($params) {
                     $query->where(function ($query) use ($params) {
-                        $query->orWhere('firstname', 'LIKE', "%$params->search%");
-                        $query->orWhere('lastname', 'LIKE', "%$params->search%");
-                        $query->orWhere('middlename', 'LIKE', "%$params->search%");
+                        $query->orWhere('name', 'LIKE', "%$params->search%");
                     });
                     $query->whereHas('area', function ($query) use ($params) {
                         $query->where(function ($query) use ($params) {
@@ -49,7 +47,7 @@ class DeployEmployeeRepository extends Repository {
     public function storeDeploy($request) {
         $check = $this->model()
             ->where(\DB::raw("(DATE_FORMAT(date,'%d-%m-%Y'))"), (new Carbon($request->date))->format('d-m-Y'))
-            ->where('employee_id', $request->employee_id)->first();
+            ->where('team_id', $request->team_id)->first();
 
             if(!empty($check)) {
 
@@ -58,12 +56,13 @@ class DeployEmployeeRepository extends Repository {
             }
 
         $data = new $this->model();
-        $data->employee_id = $request->employee_id;
+        $data->team_id = $request->team_id;
         $data->area_id = $request->area_id;
+        $data->members = $request->members;
         $data->date = $request->date;
 
         if($data->save()) {
-            return $this->model()->with(['area', 'employee'])->find($data->id);
+            return $this->model()->with(['area', 'team'])->find($data->id);
         }
 
     }
@@ -71,15 +70,16 @@ class DeployEmployeeRepository extends Repository {
     public function updateDeploy($id, $request) {
 
         $data = $this->model()->find($id);
-        $employee_id = $request->employee_id_id ? $request->employee_id_id : $request->employee_id;
+        $team_id = $request->team_id_id ? $request->team_id_id : $request->team_id;
         $area_id = $request->area_id_id ? $request->area_id_id : $request->area_id;
 
-        $data->employee_id = $employee_id;
+        $data->team_id = $team_id;
         $data->area_id = $area_id;
+        $data->members = $request->members;
         $data->date = $request->date;
 
         if($data->save()) {
-            return $this->model()->with(['area', 'employee'])->find($id);
+            return $this->model()->with(['area', 'team'])->find($id);
         }
     }
 

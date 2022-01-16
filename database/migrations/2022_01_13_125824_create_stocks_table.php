@@ -18,7 +18,7 @@ class CreateStocksTable extends Migration
             $table->unsignedBigInteger('item_id');
             $table->integer('quantity');
             $table->integer('used')->default(0)->nullable();
-            $table->integer('remaining')->default(0)->nullable();
+            $table->string('unit');
             $table->timestamps();
         });
     }

@@ -2,7 +2,7 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
     <img src="/img/job.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-    <span class="brand-text font-weight-light">Farm Managment</span>
+    <span class="brand-text font-weight-light">Farm Management</span>
     </a>
 
     <!-- Sidebar -->
@@ -10,7 +10,7 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-        <img src="/img/adminlogo.png" class="img-circle elevation-2" alt="User Image">
+        {{-- <img src="/img/adminlogo.png" class="img-circle elevation-2" alt="User Image"> --}}
         </div>
         <div class="info">
         <a href="#" class="d-block">{{auth()->user()->userType->name }}</a>
@@ -35,7 +35,7 @@
         <!-- Add icons to the links using the .nav-icon class
             with font-awesome or any other icon font library -->
             <li class="nav-item">
-                <a href="/company" class="nav-link {{ Route::is('company.index') ? 'active' : '' }}">
+                <a href="/home" class="nav-link {{ Route::is('home') ? 'active' : '' }}">
                     <i  class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                     Dashboard
@@ -70,8 +70,14 @@
             <li class="nav-header">ATTENDANCE</li>
             <li class="nav-item">
                 <a href="/attendance#/attendance" class="nav-link {{ Route::is('attendance.index') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-arrow-circle-down"></i>
+                    <i class="nav-icon fas fa-user-clock"></i>
                     <p>Attendance</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/overtime#/overtime-list" class="nav-link {{ Route::is('overtime.index') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-clock"></i>
+                    <p>Overtime</p>
                 </a>
             </li>
             <li class="nav-header">EMPLOYEES</li>
@@ -87,12 +93,13 @@
                 <p>Payroll</p>
                 </a>
             </li> --}}
+            <li class="nav-header">FINANCE</li>
             <li class="nav-item  {{ Route::is('payroll.index') ? 'menu-is-opening menu-open' : '' }}
             {{ Route::is('company.jobs') ? 'menu-is-opening menu-open' : '' }}">
                 <a href="#" class="nav-link {{ Route::is('payroll.index') ? 'active' : '' }} {{ Route::is('company.jobs') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-address-card"></i>
                 <p>
-                    PAYROLL
+                    Payroll
                     <i class="fas fa-angle-left right"></i>
                 </p>
                 </a>
@@ -111,7 +118,7 @@
                 </li>
                 </ul>
             </li>
-            <li class="nav-header">STOCKS</li>
+            <li class="nav-header">WAREHOUSE</li>
             <li class="nav-item">
                 <a href="/stocks#/stocks" class="nav-link {{ Route::is('warehouse.stock') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-box"></i>
@@ -130,7 +137,7 @@
                     <p>Category</p>
                 </a>
             </li>
-            <li class="nav-header">Deploy</li>
+            <li class="nav-header">OPERATIONS</li>
             {{-- <li class="nav-item">
                 <a href="/company/profile" class="nav-link {{ Route::is('company.profile') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-user"></i>
@@ -139,8 +146,8 @@
             </li> --}}
             <li class="nav-item">
                 <a href="/deploy-employee#/deploy-employees" class="nav-link {{ Route::is('deploy-employee.index') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-user"></i>
-                    <p>Deploy Employee</p>
+                    <i class="nav-icon fas fa-user-friends"></i>
+                    <p>Deploy Team</p>
                 </a>
             </li>
             <li class="nav-item">
@@ -156,10 +163,52 @@
                 <p>Profile</p>
                 </a>
             </li> --}}
+            <li class="nav-item  {{ Route::is('month.index') ? 'menu-is-opening menu-open' : '' }}
+            {{ Route::is('company.jobs') ? 'menu-is-opening menu-open' : '' }}">
+                <a href="#" class="nav-link {{ Route::is('month.index') ? 'active' : '' }} {{ Route::is('company.jobs') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-address-card"></i>
+                <p>
+                    Half Month Report
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+                </a>
+                <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="/half-month#/reports" class="nav-link">
+                    <i class="far fa-copy nav-icon"></i>
+                    <p>Reports</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/half-month#/hgenerate" class="nav-link">
+                    <i class="far fa-copy nav-icon"></i>
+                    <p>Generate</p>
+                    </a>
+                </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="/daily-operation#/operations" class="nav-link {{ Route::is('daily-operation.index') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-paper-plane"></i>
+                    <p>Daily Operation</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/task#/tasks" class="nav-link {{ Route::is('task.index') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-check-square"></i>
+                    <p>Task</p>
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="/harvest#/harvest" class="nav-link {{ Route::is('harvest.index') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-cart-arrow-down"></i>
                     <p>Harvest</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/team#/teams" class="nav-link {{ Route::is('team.index') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-user-friends"></i>
+                    <p>Team</p>
                 </a>
             </li>
             <li class="nav-header">QR CODE</li>
@@ -202,9 +251,14 @@
                 </a>
             </li> --}}
             <li class="nav-item">
-                <a href="iframe.html" class="nav-link">
+                <a href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();" class="nav-link">
                 <i class="nav-icon fas fa-power-off"></i>
                 <p>Logout</p>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
                 </a>
             </li>
         </ul>

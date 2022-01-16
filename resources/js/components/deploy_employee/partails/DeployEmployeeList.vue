@@ -20,6 +20,33 @@
                 :data="deploy"
                 v-loading="loading"
                 style="width: 100%">
+                    <el-table-column type="expand">
+                        <template slot-scope="props">
+                            <div class="img_profile">
+                                <h4>MEMBERS</h4>
+                                <el-table
+                                    :data="props.row.members"
+                                    style="width: 100%">
+                                    <el-table-column
+                                        prop="firstname"
+                                        label="FIRSTNAME">
+                                    </el-table-column>
+                                    <el-table-column
+                                        prop="lastname"
+                                        label="LASTNAME">
+                                    </el-table-column>
+                                    <el-table-column
+                                        prop="middlename"
+                                        label="MIDDLENAME">
+                                    </el-table-column>
+                                    <el-table-column
+                                        prop="position"
+                                        label="POSITION">
+                                    </el-table-column>
+                                </el-table>
+                            </div>
+                        </template>
+                    </el-table-column>
                     <el-table-column
                         width="70"
                         label="No."
@@ -29,12 +56,9 @@
                             </template>
                     </el-table-column>
                     <el-table-column
-                        prop="employee"
-                        label="NAME"
+                        prop="team.name"
+                        label="TEAM"
                         :sortable="true">
-                            <template slot-scope="scope">
-                                {{scope.row.employee.lastname}}, {{scope.row.employee.firstname}} {{scope.row.employee.middlename}}
-                            </template>
                     </el-table-column>
                     <el-table-column
                         prop="date"

@@ -6,6 +6,10 @@ import QrCode from './qrcode/qrcode'
 import Deploy from './attendance/deploy_employee'
 import Finance from './finance/finance'
 import Harvest from './harvest/harvest'
+import Team from './team/team'
+import Task from './task/task'
+import Operation from './daily_operation/daily_operation'
+import Month from './month/month'
 
 export default {
     Employee,
@@ -15,5 +19,9 @@ export default {
     QrCode,
     Deploy,
     Finance,
-    Harvest
+    Harvest,
+    Team,
+    Task,
+    Operation,
+    Month
 }

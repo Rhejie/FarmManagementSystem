@@ -58,11 +58,29 @@
                             </template>
                     </el-table-column>
                     <el-table-column
+                        prop="ot_in"
+                        label="OT IN"
+                        :sortable="true">
+                            <template slot-scope="scope">
+                                {{scope.row.ot_in | timeFormat}}
+                            </template>
+                    </el-table-column>
+                    <el-table-column
+                        prop="ot_out"
+                        label="OT OUT"
+                        :sortable="true">
+                            <template slot-scope="scope">
+                                {{scope.row.ot_out | timeFormat}}
+                            </template>
+                    </el-table-column>
+                    <el-table-column
                         fixed="right"
                         width="110"
                         label="ACTION">
                         <template slot-scope="scope">
-                            <button @click="handleOut(scope.row)" v-if="!scope.row.time_out" class="btn btn-danger btn-sm"><i class="fas fa-power-off"></i> out</button>
+                            <button @click="handleOut(scope.row)" v-if="checkOut(scope.row)" class="btn btn-danger btn-sm">out</button>
+                            <button @click="handleOTin(scope.$index, scope.row)" v-loading="index == scope.$index"  v-if="checkOTin(scope.row)" class="btn btn-success btn-sm">OT in</button>
+                            <button @click="handleOTout(scope.$index, scope.row)" v-if="checkOTout(scope.row)" class="btn btn-danger btn-sm">OT Out</button>
                             <!--button @click="askToDelete(scope.$index, scope.row)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></!--button -->
                         </template>
                     </el-table-column>
@@ -99,7 +117,9 @@ export default {
             model: {},
             dialogTableVisible: false,
             date: null,
-            name: ''
+            name: '',
+            loadingIndex: false,
+            index: null
         }
     },
     created() {
@@ -154,6 +174,47 @@ export default {
                 console.log(error);
             }
         },
+        checkOut(data) {
+            if(data.time_in) {
+                if(!data.time_out) {
+                    if(data.ot_in) {
+                        return false
+                    }
+                    return true
+                }
+                else {
+                    return false
+                }
+            }
+            else {
+                true
+            }
+        },
+        checkOTin(data) {
+            if(!data.ot_in) {
+                if(data.time_out) {
+                    let hours = Math.abs((new Date(data.date+" "+data.time_in)) - (new Date (data.date+" "+data.time_out))) / 36e5;
+
+                    if(hours >= 9) {
+                        return true
+                    }
+                    return false;
+                }
+                else {
+                    return false
+                }
+            }
+        },
+        checkOTout(data) {
+            if(!data.ot_out) {
+                if(data.ot_in) {
+                    return true
+                }
+                else {
+                    return false
+                }
+            }
+        },
         addAttendance() {
             this.dialogTableVisible = true;
             this.model = {}
@@ -172,6 +233,88 @@ export default {
                             message: 'Time out canceled'
                         });
                     });
+        },
+        handleOTin(index, data) {
+            this.$confirm('Are yous sure you want to overtime this person?', 'Warning', {
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+                    }).then(() => {
+                        this.OTin(index, data)
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: 'Time out canceled'
+                        });
+                    });
+        },
+        handleOTout(index, data) {
+            this.$confirm('Are yous sure you want to time out?', 'Warning', {
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+                    }).then(() => {
+                        this.OTout(index, data)
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: 'Time out canceled'
+                        });
+                    });
+        },
+        async OTin(index, data) {
+            try {
+                this.loadingIndex = true
+                this.index = index
+                const res = await this.$API.Attendance.OTin(data.id);
+
+                if(res.data == 'failed') {
+                    this.$message.error('Oops, you are not allowed to overtime.');
+                    this.loadingIndex = false
+                    this.index = null
+                    return
+                }
+                this.$message({
+                    message: 'Success fully time in.',
+                    type: 'success'
+                });
+                this.attendance.forEach(emp => {
+                    if(emp.id == res.data.id) {
+                        for(let key in res.data) {
+                            emp[key] = res.data[key]
+                        }
+                    }
+                });
+                await this.checkOTin(data)
+                await this.checkOTout(data)
+                this.loadingIndex = false
+                this.index = null
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async OTout(index, data) {
+            try {
+                this.loadingIndex = true
+                this.index = index
+                const res = await this.$API.Attendance.OTout(data.id);
+                this.$message({
+                    message: 'Success fully time out.',
+                    type: 'success'
+                });
+                this.attendance.forEach(emp => {
+                    if(emp.id == res.data.id) {
+                        for(let key in res.data) {
+                            emp[key] = res.data[key]
+                        }
+                    }
+                });
+                this.checkOTout(data)
+                this.loadingIndex = false
+                this.index = null
+            } catch (error) {
+                console.log(error);
+            }
         },
         async timeOut(data) {
             let form = {

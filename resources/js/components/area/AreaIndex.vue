@@ -34,11 +34,10 @@ export default {
     name: 'AreaIndex',
     data() {
         return {
-            coordinates: {
-                lat: 0,
-                lng: 0
-            },
-            noLocation: true
+            error: '',
+            lat:'',
+            lon:'',
+            location: ''
         }
     },
     created() {
@@ -46,7 +45,7 @@ export default {
         //     .then(coordinates => {
         //         console.log(coordinates);
         //     });
-        this.getLocation();
+        this.getLocation()
     },
     methods: {
         async getLocation() {

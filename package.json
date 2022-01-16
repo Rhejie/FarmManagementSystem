@@ -26,9 +26,12 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@pderas/vue2-geocoder": "^1.1.0",
         "element-ui": "^2.15.6",
+        "html2canvas": "^1.4.0",
         "vue-barcode-reader": "^0.0.3",
         "vue-browser-geolocation": "^1.8.0",
+        "vue-qr-reader": "^1.6.2",
         "vue-router": "^3.5.3"
     }
 }

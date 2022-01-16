@@ -10,10 +10,12 @@
         ]); ?>;
     </script>
     <script src="{{ asset('js/app.js') }}" defer></script>
+
 </head>
 <body>
     <div id="app">
         <qr-code-scanner></qr-code-scanner>
     </div>
+
 </body>
 </html>

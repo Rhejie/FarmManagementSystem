@@ -4,6 +4,8 @@ import Vue from 'vue';
 require('./bootstrap');
 
 
+axios.defaults.headers.common["X-CSRF-TOKEN"] = window.Laravel.csrfToken;
+axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 const files = require.context("./", true, /\.vue$/i);
 files.keys().map(key =>
@@ -15,8 +17,12 @@ files.keys().map(key =>
         files(key).default
     )
 );
+
 import VueGeolocation from 'vue-browser-geolocation';
 Vue.use(VueGeolocation);
+
+import html2canvas from 'html2canvas';
+
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import "element-ui/lib/theme-chalk/display.css";
@@ -42,3 +48,7 @@ const app = new Vue({
 });
 
 
+
+function saveimg() {
+    alert('asdasd')
+}

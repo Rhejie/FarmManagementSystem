@@ -170,6 +170,88 @@ export default new VueRouter({
                     component: () => import('../components/harvest/HarvestIndex.vue')
                 }
             ]
-        }
+        },
+        {
+            path: '/team',
+            name: 'Team Main Component',
+            props: true,
+            component: () => import('../components/team/TeamMainComponent.vue'),
+            children: [
+                {
+                    path: '/teams',
+                    name: 'Teams List',
+                    component: () => import('../components/team/TeamIndex.vue'),
+                    props: true,
+                }
+            ]
+        },
+        {
+            path: '/task',
+            name: 'Task Main Component',
+            props: true,
+            component: () => import('../components/task/TaskMainComponent.vue'),
+            children: [
+                {
+                    path: '/tasks',
+                    name: 'Task List',
+                    component: () => import('../components/task/TaskIndex.vue'),
+                    props: true,
+                }
+            ]
+        },
+        {
+            path: '/operation',
+            name: 'Daily Operation Main Component',
+            props: true,
+            component: () => import('../components/daily_operation/OperaitonMainComponent.vue'),
+            children: [
+                {
+                    path: '/operations',
+                    name: 'Daily Operation List',
+                    component: () => import('../components/daily_operation/OperationIndex.vue'),
+                    props: true,
+                }
+            ]
+        },
+        {
+            path: '/half-month',
+            name: 'Half Month Main Component',
+            props: true,
+            component: () => import('../components/half_month/HalfMonthMainComponent.vue'),
+            children: [
+                {
+                    path: '/reports',
+                    name: 'Half Month List',
+                    component: () => import('../components/half_month/HalfMonthIndex.vue'),
+                    props: true,
+                },
+                {
+                    path: '/hgenerate',
+                    name: 'Generate Half Month',
+                    component: () => import('../components/half_month/form/HalfMonthForm.vue'),
+                    props: true,
+                },
+                {
+                    path: '/rdetails/:id',
+                    name: 'Report Details',
+                    props: true,
+                    component: () => import('../components/half_month/partials/ViewReport.vue')
+                }
+            ]
+        },
+        {
+            path: '/overtime',
+            name: 'Overtime Main Component',
+            props: true,
+            component: () => import('../components/overtime/OvertimeMainComponent.vue'),
+            children: [
+                {
+                    path: '/overtime-list',
+                    name: 'Overtime List',
+                    component: () => import('../components/overtime/OvertimeIndex.vue'),
+                    props: true,
+                }
+            ]
+        },
     ]
 })

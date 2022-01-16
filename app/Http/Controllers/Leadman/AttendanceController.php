@@ -24,6 +24,10 @@ class AttendanceController extends Controller
 
     }
 
+    public function overtime() {
+        return view('HR.overtime.index');
+    }
+
     public function getAttendance(Request $request) {
 
         $page = $request->page ? $request->page : 1;
@@ -83,5 +87,56 @@ class AttendanceController extends Controller
         $attendance = $this->attendanceRepository->attendanceByQr(json_decode(json_encode($params)));
 
         return response()->json($attendance, 200);
+    }
+
+    public function otIn($id) {
+
+        $attendance = $this->attendanceRepository->otIn($id);
+
+        return response()->json($attendance, 200);
+
+    }
+
+    public function otOut($id) {
+
+        $attendance = $this->attendanceRepository->otOut($id);
+
+        return response()->json($attendance, 200);
+
+    }
+
+    public function getOvertime(Request $request) {
+
+        $page = $request->page ? $request->page : 1;
+        $count = $request->count ? $request->count : 10;
+        $search = $request->search && $request->search != '' && $request->search !== 'null' ? $request->search : null;
+        $date = $request->date ? $request->date : null;
+
+        $params = [
+            'page' => $page,
+            'count' => $count,
+            'search' => $search,
+            'date' => $date,
+        ];
+
+        $overtime = $this->attendanceRepository->getOvertime(json_decode(json_encode($params)));
+
+        return response()->json($overtime, 200);
+    }
+
+    public function approvedOT($id) {
+
+        $attendance = $this->attendanceRepository->approvedOT($id);
+
+        return response()->json($attendance, 200);
+
+    }
+
+    public function declineOT($id) {
+
+        $attendance = $this->attendanceRepository->declineOT($id);
+
+        return response()->json($attendance, 200);
+
     }
 }

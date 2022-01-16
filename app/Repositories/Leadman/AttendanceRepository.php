@@ -127,10 +127,26 @@ class AttendanceRepository extends Repository {
                 }
 
             }
+            else if(!$attendance->ot_in) {
+
+                $attendance->ot_in = $time_now;
+
+                if($attendance->save()) {
+                    return 'success_ot_in';
+                }
+
+            }
+            else if(!$attendance->ot_out) {
+
+                $attendance->ot_out = $time_now;
+
+                if($attendance->save()) {
+                    return 'success_ot_out';
+                }
+            }
             else {
 
                 return 'already_time_in_out';
-
             }
 
         }
@@ -149,14 +165,20 @@ class AttendanceRepository extends Repository {
             $time_date_in = new Carbon($data->date." ".$data->time_in);
             $time_date_out = new Carbon($data->date." ".$data->time_out);
 
+
+            $ot_date_in = new Carbon($data->date." ".$data->ot_in);
+            $ot_date_out = new Carbon($data->date." ".$data->ot_out);
+
             $diff_in_hours = $time_date_in->diffInHours($time_date_out);
+            $diff_in_hours_ot = $ot_date_in->diffInHours($ot_date_out);
 
             $data->total_hours = $diff_in_hours;
+            $data->total_hours_ot = $diff_in_hours_ot;
 
             $data->date_time_in = $time_date_in;
             $data->date_time_out = $time_date_out;
 
-            if($diff_in_hours == 9) {
+            if($diff_in_hours == 9 || $diff_in_hours >= 9) {
                 $data->status = 'Full';
             }
             if($diff_in_hours == 4) {
@@ -165,6 +187,8 @@ class AttendanceRepository extends Repository {
             if($diff_in_hours < 4 || $diff_in_hours < 9) {
                 $data->status = 'Under Time';
             }
+
+            $data->diff_in_hours = $diff_in_hours;
 
             return $data;
         });
@@ -176,6 +200,93 @@ class AttendanceRepository extends Repository {
 
         return $data;
 
+
+    }
+
+    public function otIn($id) {
+
+        date_default_timezone_set('Asia/Manila');
+
+        $attendance = $this->model()->find($id);
+
+        $from = Carbon::createFromFormat('H:s:i', $attendance->time_in);
+        $to = Carbon::createFromFormat('H:s:i', $attendance->time_out);
+
+        $diff_in_hours = $to->diffInHours($from);
+
+        if($diff_in_hours >= 9) {
+            $attendance->ot_in = Carbon::now();
+            $attendance->save();
+            return $this->model()->with(['employee'])->find($id);
+        }
+        else {
+            return 'failed';
+        }
+
+    }
+
+    public function otOut($id) {
+
+        date_default_timezone_set('Asia/Manila');
+
+        $attendance = $this->model()->find($id);
+
+        $attendance->ot_out = Carbon::now();
+
+        $attendance->save();
+
+        return $this->model()->with(['employee'])->find($id);
+    }
+
+    public function getOvertime($params) {
+
+        $attendance = $this->model()->with(['employee']);
+
+        if($params->search) {
+
+            $attendance = $attendance->where(function($query) use ($params) {
+                $query->where('date', 'LIKE', "$params->date");
+                $query->whereHas('employee', function ($query) use ($params) {
+                    $query->where(function ($query) use ($params) {
+                        $query->orWhere('firstname', 'LIKE', "%$params->search%");
+                        $query->orWhere('middlename', 'LIKE', "%$params->search%");
+                        $query->orWhere('lastname', 'LIKE', "%$params->search%");
+                    });
+                });
+            })->where('ot_in', '!=', null)
+            ->where('ot_out', '!=', null)
+            ->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
+
+            return $attendance;
+
+        }
+
+        $attendance = $attendance->where('date', 'LIKE', "$params->date")
+                ->where('ot_in', '!=', null)
+                ->where('ot_out', '!=', null)
+                ->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
+
+        return $attendance;
+
+    }
+
+    public function approvedOT($id) {
+
+        $attendance = $this->model()->find($id);
+        $attendance->ot_status = 'Approved';
+        $attendance->save();
+
+        return $this->model()->with(['employee'])->find($id);
+
+    }
+
+    public function declineOT($id) {
+
+        $attendance = $this->model()->find($id);
+        $attendance->ot_status = 'Declined';
+        $attendance->save();
+
+        return $this->model()->with(['employee'])->find($id);
 
     }
 }

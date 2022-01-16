@@ -41,9 +41,16 @@ class AreaController extends Controller
 
     public function storeArea(Request $request) {
 
-        $ip = $request->ip();
+        if($request->coordinates['lat'] == 0 && $request->coordinates['lng'] == 0) {
+            $ip = $request->ip();
 
-        $data = \Location::get($ip);
+            $data = \Location::get($ip);
+
+        }
+        else {
+            $data->latitude = $request->coordinates['lat'];
+            $data->longitude = $request->coordinates['lng'];
+        }
 
         $area = $this->areaRepository->storeArea(json_decode(json_encode($request->all())), $data);
 

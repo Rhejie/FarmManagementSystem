@@ -19,6 +19,9 @@ class CreateAttendancesTable extends Migration
             $table->date('date');
             $table->time('time_in');
             $table->time('time_out')->nullable();
+            $table->time('ot_in')->nullable();
+            $table->time('ot_out')->nullable();
+            $table->string('ot_status')->default('Pending');
             $table->timestamps();
         });
     }

@@ -8,6 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Farm Management System</title>
+  <script src="/js/app.js" defer></script>
   <!-- Scripts -->
 
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -177,13 +178,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Content Wrapper. Contains page content -->
 
       <!-- /.content-wrapper -->
-      <footer class="main-footer">
+      {{--<footer class="main-footer">
         <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
         All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
           <b>Version</b> 3.1.0
         </div>
-      </footer>
+      </footer> --}}
 
       <!-- Control Sidebar -->
       <aside class="control-sidebar control-sidebar-dark">
@@ -227,6 +228,5 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('vendors/dist/js/demo.js')}}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     {{--<script src="{{ asset('vendors/dist/js/pages/dashboard.js')}}"></script> --}}
-    <script src="{{ asset('js/app.js') }}" defer></script>
     </body>
 </html>

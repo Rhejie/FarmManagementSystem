@@ -40,6 +40,11 @@
                             </template>
                     </el-table-column>
                     <el-table-column
+                        prop="unit"
+                        label="UNIT"
+                        :sortable="true">
+                    </el-table-column>
+                    <el-table-column
                         prop="used"
                         label="USED"
                         :sortable="true">
@@ -49,11 +54,11 @@
                     </el-table-column>
                     <el-table-column
                         fixed="right"
-                        width="270"
+                        width="170"
                         label="ACTION">
                         <template slot-scope="scope">
-                            <button @click="handleDeploy(scope.row)" class="btn btn-info btn-sm"><i class="fas fa-baby-carriage"></i> DEPLOY</button>
-                            <button @click="handleRestock(scope.row)" class="btn btn-warning btn-sm"><i class="fas fa-plus"></i> RESTOCK</button>
+                            <button @click="handleDeploy(scope.row)" class="btn btn-info btn-sm"><i class="fas fa-baby-carriage"></i></button>
+                            <button @click="handleRestock(scope.row)" class="btn btn-warning btn-sm"><i class="fas fa-plus"></i></button>
                             <button @click="handleEdit(scope.row)" class="btn btn-success btn-sm"><i class="far fa-edit"></i></button>
                             <button @click="askToDelete(scope.$index, scope.row)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                         </template>

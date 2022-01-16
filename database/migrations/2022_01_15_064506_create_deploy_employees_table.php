@@ -15,9 +15,10 @@ class CreateDeployEmployeesTable extends Migration
     {
         Schema::create('deploy_employees', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('team_id');
             $table->unsignedBigInteger('area_id');
             $table->dateTime('date');
+            $table->json('members');
             $table->timestamps();
         });
     }

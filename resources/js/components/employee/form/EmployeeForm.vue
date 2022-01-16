@@ -97,6 +97,20 @@ export default {
                 return callback(new Error('Please input the qrcode'));
             }
             else {
+                if(this.form.qrcode) {
+                    if(this.verify) {
+                        return callback();
+                    }
+                    if(!this.verify) {
+                        return callback(new Error('Please the qrcode is not registed'));
+                    }
+                    else {
+                        return callback();
+                    }
+                }
+                if(this.verify) {
+                    return callback();
+                }
                 if(!this.verify) {
                     return callback(new Error('Please the qrcode is not registed'));
                 }
@@ -199,6 +213,7 @@ export default {
         },
         resetForm(formName) {
             this.fileList = []
+            this.verify = false;
             this.$refs[formName].resetFields();
         },
         initializeForm() {
@@ -342,7 +357,6 @@ export default {
                 else {
                     this.fileList = []
                 }
-                this.verify = true;
                 this.form = {
                     firstname: newVal.firstname,
                     middlename: newVal.middlename,
@@ -355,6 +369,15 @@ export default {
                     position: newVal.position,
                     qrcode: newVal.qrcode,
                 }
+            }
+            else {
+
+                this.verify = true;
+            }
+        },
+        verify(newVal, oldVal) {
+            if(newVal != oldVal) {
+                return newVal;
             }
         }
     }

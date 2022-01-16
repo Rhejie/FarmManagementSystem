@@ -50,7 +50,7 @@ class StockRepository extends Repository {
         $data = new $this->model();
         $data->item_id = $request->item_id;
         $data->quantity = $request->quantity;
-        $data->remaining = $request->quantity;
+        $data->unit = $request->unit;
         if($data->save()) {
 
             return $this->model()->with(['item' => function ($query) {
@@ -68,6 +68,7 @@ class StockRepository extends Repository {
 
         $data->item_id = $item_id;
         $data->quantity = $request->quantity;
+        $data->unit = $request->unit;
         if($data->save()) {
             return $this->model()->with(['item' => function ($query) {
                 $query->with(['category']);

@@ -34,6 +34,10 @@ export default {
                     { required: true, message: 'Please input category name', trigger: 'blur' }
                 ],
             },
+            coordinates: {
+                lat: 0,
+                lng: 0
+            }
         }
     },
     created() {
@@ -47,6 +51,8 @@ export default {
                 name: this.model.name
             }
         }
+
+        this.getLocation();
     },
     methods: {
         submitForm(formName) {
@@ -67,8 +73,20 @@ export default {
         resetForm(formName) {
             this.$refs[formName].resetFields();
         },
+        async getLocation() {
+            try {
+                const coordinates = await this.$getLocation({
+                    enableHighAccuracy: true
+                });
+                this.coordinates = coordinates;
+                this.noLocation = false;
+            } catch (error) {
+                console.log(error);
+            }
+        },
         async storeArea() {
             try {
+                this.form.coordinates = this.coordinates
                 const res = await this.$API.Area.storeArea(this.form)
                 this.$EventDispatcher.fire('NEW_DATA', res.data);
                 this.$notify({
