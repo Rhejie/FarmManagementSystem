@@ -23,15 +23,27 @@ class AreaRepository extends Repository {
                 ->where(function($query) use ($params) {
                     $query->where('name', 'LIKE', "%$params->search%");
                 })
-                ->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
+                ->orderBy('id', 'asc')->paginate($params->count, ['*'], 'page', $params->page);
 
             return $areas;
         }
 
-        $areas = $areas->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
+        $areas = $areas->orderBy('id', 'asc')->paginate($params->count, ['*'], 'page', $params->page);
 
         return $areas;
 
+    }
+
+    public function getAreasList() {
+
+        $areas = $this->model()->get();
+
+        // $areas = $areas->map(function($area) {
+        //     $area->coordinates = json_decode($area->coordinates);
+        //     return $area;
+        // });
+
+        return $areas;
     }
 
     public function storeArea($request) {
@@ -39,10 +51,9 @@ class AreaRepository extends Repository {
         $data = new $this->model();
 
         $data->name = $request->name;
-        // $data->lat = $request->coordinates->lat;
-        // $data->lng = $request->coordinates->lng;
+        $data->color = $request->color;
         if($data->save()) {
-            return $data;
+            return $this->model()->find($data->id);
         }
 
     }
@@ -51,6 +62,8 @@ class AreaRepository extends Repository {
 
         $data = $this->model()->find($id);
         $data->name = $request->name;
+        $data->status = $request->status;
+        $data->color = $request->color;
         if($data->save()) {
             return $data;
         }

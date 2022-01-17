@@ -17,4 +17,7 @@ export default {
     searchArea(search) {
         return axios.get(`/area/search-areas?search=${search}`)
     },
+    getAllAreas() {
+        return axios.get('/area/get-all-areas')
+    }
 }

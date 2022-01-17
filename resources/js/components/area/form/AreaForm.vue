@@ -7,14 +7,17 @@
                 </el-form-item>
             </div>
             <div class="col-md-12">
-                <GmapMap
-                    v-loading="loadingMap"
-                    :center="form.coordinates"
-                    :zoom="17"
-                    style="width:100%; height:400px; margin-bottom: 10px; magin: 32px auto"
-                    ref="mapRef">
-                        <gmap-marker :position="form.coordinates" :clickable="true" />
-                </GmapMap>
+                <el-form-item label="Status" v-if="mode == 'update'">
+                    <el-select v-model="form.status" placeholder="please select your zone">
+                        <el-option label="Draft" value="Draft"></el-option>
+                        <el-option label="Publish" value="Publish"></el-option>
+                    </el-select>
+                </el-form-item>
+            </div>
+            <div class="col-md-12">
+                <el-form-item label="Color" prop="color">
+                    <el-color-picker v-model="form.color" style="width:100%" show-alpha></el-color-picker>
+                </el-form-item>
             </div>
             <div class="col-md-12">
                 <el-form-item style="float:right">
@@ -37,14 +40,15 @@ export default {
             map: null,
             form: {
                 name: '',
-                coordinates: {
-                    lat: 0,
-                    lng: 0
-                }
+                status: '',
+                color: ''
             },
             rules : {
                 name: [
                     { required: true, message: 'Please input category name', trigger: 'blur' }
+                ],
+                color: [
+                    { required: true, message: 'Please input select color', trigger: 'blur' }
                 ],
             },
             loadingMap: false
@@ -59,17 +63,10 @@ export default {
         if(this.model && this.model.id) {
             this.form = {
                 name: this.model.name,
-                coordinates: {
-                    lat: this.model.lat,
-                    lng: this.model.lng,
-                }
+                status: this.model.status,
+                color: this.model.color,
             }
         }
-
-        this.getLocation();
-    },
-    mounted() {
-        this.$refs.mapRef.$mapPromise.then(map => this.map = map)
     },
     methods: {
         submitForm(formName) {
@@ -143,27 +140,18 @@ export default {
             if(newVal != oldVal) {
                 this.form = {
                     name: newVal.name,
-                    coordinates: {
-                        lat: newVal.lat,
-                        lng: newVal.lng,
-                    }
+                    status: newVal.status,
+                    color: newVal.color,
                 }
-
-                this.getLocation();
             }
         },
         mode(val) {
             if(val && val == 'create') {
                 this.form = {
                     name: '',
-                    coordinates: {
-                        lat: 0,
-                        lng: 0
-                    }
+                    status: '',
+                    color: '',
                 }
-
-
-                this.getLocation();
             }
         }
     }

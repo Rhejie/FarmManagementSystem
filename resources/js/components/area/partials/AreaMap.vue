@@ -1,41 +1,30 @@
 <template>
-     <el-card class="box-card">
-        <div  class="text item">
+     <el-card class="box-card" style="padding:0">
+        <div style="height: 600px; width: 100%">
             <l-map
                 :zoom="zoom"
                 :center="getFirstArea"
                 :options="mapOptions"
                 @click="customeClick"
-                style="height: 80%"
+                style="height: 100%"
                 @update:center="centerUpdate"
                 @update:zoom="zoomUpdate">
-                    <l-circle :lat-lng="circle.center" color="red" fillColor="blue" :radius="10000"></l-circle>
                     <l-polygon
-                        :lat-lngs="polygon.latlngs"
-                        :color="polygon.color"
-                    />
+                        v-for="area in areas.filter(area => area.status == 'Publish')" :key="area.id"
+                        :color="area.color"
+                        :lat-lngs="area.coordinates"
+                        :bind-popup="area.name">
+                        <l-popup> {{area.name}}</l-popup>
+                    </l-polygon>
                     <l-tile-layer
                         :url="url"
                         :attribution="attribution"/>
-                            <l-marker :lat-lng="getCoor(coor.lat, coor.lng)" v-for="coor in coorArray" :key="coor.id">
-                                <l-icon :icon-url="`/img/area.png`" :icon-size="iconSize"></l-icon>
-                                <l-popup>
-                                <div @click="innerClick">
-                                    {{coor.name}}
-                                    <p v-show="showParagraph">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                                    sed pretium nisl, ut sagittis sapien. Sed vel sollicitudin nisi.
-                                    Donec finibus semper metus id malesuada.
-                                    </p>
-                                </div>
-                                </l-popup>
-                            </l-marker>
             </l-map>
         </div>
      </el-card>
 </template>
 <script>
-import { latLng , Icon } from "leaflet";
+import { latLng , Icon} from "leaflet";
 import { LMap, LTileLayer, LMarker, LPopup, LTooltip , LCircle, LIcon, LPolygon,} from "vue2-leaflet";
 export default {
     name: 'AreaMap',
@@ -51,48 +40,58 @@ export default {
     },
     data() {
         return {
-            zoom: 10,
+            zoom: 15,
             center: latLng(0, 0),
             url: 'https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=cac1c63e746741a79462820881e7f2c6',
             attribution: 'Farm Management',
-            withPopup: latLng(47.41322, -1.219482),
-            withTooltip: latLng(0, 0),
             currentZoom: 11.5,
             currentCenter: latLng(47.41322, -1.219482),
             showParagraph: true,
             mapOptions: {
                 zoomSnap: 0.5
             },
-            coorArray: [
-                {id: 1, lat: 47.41322, lng: -1.219482, name: 'Ambot'},
-                {id: 2, lat: 7.456723800000001, lng: 125.58301839999999, name: 'Tulalian'}
-            ],
             coordinates: {},
-            icon: '',
-            iconSize: [40,40],
-            circle: {
-                center: latLng(7.456723800000001, 125.58301839999999),
-                radius: 50
-            },
-            polygon: {
-                latlngs: [
-
-                    [7.584843600080864, 125.65932042738467],
-                    [7.582491219170435, 125.65684521853923],
-                    [7.578140545332663, 125.65426793922595],
-                    [7.573992187484203, 125.65748315896332],
-                    [7.577786418783289, 125.66508740881837],
-                    [7.581959352102654, 125.66169631984934],
-                    [7.584907223354542, 125.65940521711725],
-
-                    ],
-                color: "#ff00ff"
-            },
+            areas: []
         }
     },
     mounted() {
 
         this.getLocation()
+        this.getAreas()
+    },
+    computed: {
+        getFirstArea() {
+            if(this.areas.length > 0) {
+                if(this.areas[0].coordinates.length > 0) {
+                    return latLng(this.areas[0].coordinates[0][0], this.areas[0].coordinates[0][1])
+                }
+                return latLng(this.coordinates.lat, this.coordinates.lng)
+            }
+            return latLng(this.coordinates.lat, this.coordinates.lng)
+        },
+        getMarkers() {
+            let markers = []
+            this.areas.forEach(area => {
+                let center = area.coordinates.reduce(function (x,y) {
+                    return [x[0]  + y[0] / area.coordinates.length, x[1] + y[1] /area.coordinates.length]
+                }, [0,0])
+
+                markers.push(center)
+            })
+
+            return markers
+        }
+    },
+    created() {
+        this.$EventDispatcher.listen('UPDATE_DATA', data => {
+            this.areas.forEach(area => {
+                if(area.id == data.id) {
+                    area.name = data.name
+                    area.status = data.status
+                    area.color = data.color
+                }
+            })
+        })
     },
     methods: {
 
@@ -106,6 +105,35 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+
+        async getAreas() {
+            try {
+                const res = await this.$API.Area.getAllAreas();
+                this.areas = res.data.filter(area => area.status == 'Publish')
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        getCoor(lat, lng) {
+            return latLng(lat, lng);
+        },
+        zoomUpdate(zoom) {
+            this.currentZoom = zoom;
+        },
+        centerUpdate(center) {
+            this.currentCenter = center;
+        },
+        showLongText() {
+            this.showParagraph = !this.showParagraph;
+        },
+        innerClick() {
+            alert("Click!");
+        },
+        customeClick(item) {
+            const {latlng} = item
+            console.log('lat ug lng angkuhaon sa clik', item);
+
         },
     },
 }

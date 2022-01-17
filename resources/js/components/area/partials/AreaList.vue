@@ -1,7 +1,6 @@
 <template>
     <el-card class="box-card">
         <div  class="text item">
-            <el-button size="mini" type="primary" @click="viewArea">Areas</el-button>
             <el-button size="mini" type="primary" @click="addArea" style="float:right; margin-bottom:10px">Add Area</el-button>
             <el-input
                 size="mini"
@@ -26,12 +25,20 @@
                         :sortable="true">
                     </el-table-column>
                     <el-table-column
+                        prop="color"
+                        label="COLOR"
+                        :sortable="true">
+                            <template slot-scope="scope">
+                                <div :style="{backgroundColor: scope.row.color, padding: '10px'}"></div>
+                            </template>
+                    </el-table-column>
+                    <el-table-column
                         fixed="right"
-                        width="110"
+                        width="90"
                         label="ACTION">
                         <template slot-scope="scope">
-                            <button @click="handleEdit(scope.row)" class="btn btn-success btn-sm"><i class="far fa-edit"></i></button>
-                            <button @click="askToDelete(scope.$index, scope.row)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                            <button @click="handleEdit(scope.row)" class="btn btn-text btn-sm"><i class="far fa-edit"></i></button>
+                            <button @click="askToDelete(scope.$index, scope.row)" class="btn btn-text btn-sm"><i class="fas fa-trash"></i></button>
                         </template>
                     </el-table-column>
             </el-table>
@@ -45,7 +52,7 @@
             </global-pagination>
         </div>
         <el-dialog
-            :title="mode == 'create' ? 'ADD AREA' : 'UPDATE AREA'" width="45%"
+            :title="mode == 'create' ? 'ADD AREA' : 'UPDATE AREA'" width="35%"
             :before-close="handleClose"
             :visible.sync="dialogTableVisible">
             <area-form :mode="mode" :model="model"></area-form>
@@ -74,7 +81,7 @@ export default {
         this.getAreas()
 
         this.$EventDispatcher.listen('NEW_DATA', data => {
-            this.areas.unshift(data)
+            this.areas.push(data)
             this.dialogTableVisible = false
             this.mode = ''
         })
