@@ -28,18 +28,14 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 Vue.use(VueGoogleMaps, {
     load: {
       key: 'AIzaSyDgh7OHtp1OWtnwRB1PRJHFCv141RlxAmM',
-      libraries: 'places', // This is required if you use the Autocomplete plugin
-      // OR: libraries: 'places,drawing'
-      // OR: libraries: 'places,drawing,visualization'
-      // (as you require)
-
-      //// If you want to set the version, you can do so:
-      // v: '3.26',
+      libraries: 'places',
     },
     installComponents: true
 })
 
 import html2canvas from 'html2canvas';
+
+import 'leaflet/dist/leaflet.css';
 
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";

@@ -29,11 +29,13 @@
         "@pderas/vue2-geocoder": "^1.1.0",
         "element-ui": "^2.15.6",
         "html2canvas": "^1.4.0",
+        "leaflet": "^1.7.1",
         "vue-barcode-reader": "^0.0.3",
         "vue-browser-geolocation": "^1.8.0",
         "vue-qr-reader": "^1.6.2",
         "vue-qrcode-reader": "^3.1.0",
         "vue-router": "^3.5.3",
-        "vue2-google-maps": "^0.10.7"
+        "vue2-google-maps": "^0.10.7",
+        "vue2-leaflet": "^2.7.1"
     }
 }

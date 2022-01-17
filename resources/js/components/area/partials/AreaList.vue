@@ -1,11 +1,12 @@
 <template>
     <el-card class="box-card">
         <div  class="text item">
-            <el-button size="mini" type="primary" @click="addArea" style="float:right;">Add Area</el-button>
+            <el-button size="mini" type="primary" @click="viewArea">Areas</el-button>
+            <el-button size="mini" type="primary" @click="addArea" style="float:right; margin-bottom:10px">Add Area</el-button>
             <el-input
                 size="mini"
                 placeholder="Search here....."
-                style="width:300px; float:right; margin-right: 10px"
+                style="float:right; margin-right: 10px"
                 @keyup.enter.native="applySearch"
                 v-model="search">
             </el-input>
@@ -14,26 +15,14 @@
                 v-loading="loading"
                 style="width: 100%">
                     <el-table-column
-                        width="70"
-                        label="No."
-                        :sortable="true">
-                            <template slot-scope="scope">
-                                {{scope.$index + 1}}
-                            </template>
-                    </el-table-column>
-                    <el-table-column
                         prop="name"
                         label="NAME"
+                        show-overflow-tooltip
                         :sortable="true">
                     </el-table-column>
                     <el-table-column
-                        prop="lat"
-                        label="LAT"
-                        :sortable="true">
-                    </el-table-column>
-                    <el-table-column
-                        prop="lng"
-                        label="LNG"
+                        prop="status"
+                        label="STATUS"
                         :sortable="true">
                     </el-table-column>
                     <el-table-column
@@ -157,6 +146,9 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+        viewArea() {
+            this.$router.push({name: 'Area View'})
         },
         handleClose(done) {
             this.$EventDispatcher.fire('CLOSE_MODAL')

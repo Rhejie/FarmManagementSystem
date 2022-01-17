@@ -39,8 +39,8 @@ class AreaRepository extends Repository {
         $data = new $this->model();
 
         $data->name = $request->name;
-        $data->lat = $request->coordinates->lat;
-        $data->lng = $request->coordinates->lng;
+        // $data->lat = $request->coordinates->lat;
+        // $data->lng = $request->coordinates->lng;
         if($data->save()) {
             return $data;
         }

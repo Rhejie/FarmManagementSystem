@@ -22,7 +22,7 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-                    <area-list></area-list>
+                    <areas></areas>
                 </div>
             </section>
         </div>

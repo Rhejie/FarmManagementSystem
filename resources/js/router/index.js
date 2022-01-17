@@ -78,6 +78,12 @@ export default new VueRouter({
                     name: 'Area List',
                     props: false,
                     component: () => import('../components/area/AreaIndex.vue')
+                },
+                {
+                    path: '/area-view',
+                    name: 'Area View',
+                    props: true,
+                    component: () => import('../components/area/partials/AreaView.vue')
                 }
             ]
         },
