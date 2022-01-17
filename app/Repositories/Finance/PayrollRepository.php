@@ -21,7 +21,7 @@ class PayrollRepository extends Repository {
 
     public function getPayrolls($params) {
 
-        $payrolls = $this->model()->with(['employee', 'item'])
+        $payrolls = $this->model()->with(['employee'])
             ->where(\DB::raw("(DATE_FORMAT(to_date,'%d-%m-%Y'))"), (new Carbon($params->date))->format('d-m-Y'));
 
             if($params->search) {
@@ -54,20 +54,11 @@ class PayrollRepository extends Repository {
         $data->to_date = $request->date_to;
         $data->rate = $request->rate;
         $data->date = Carbon::now();
+        $data->regular = $request->regular;
+        $data->overtime = $request->overtime;
+        $data->deductions = $request->deductions;
         if($data->save()) {
-
-            foreach($request->attendance as $item) {
-
-                $payroll = new PayrollItem();
-                $payroll->payroll_id = $data->id;
-                $payroll->date = $item->date;
-                $payroll->hours = $item->total_hours;
-                $payroll->status = $item->status;
-                $payroll->salary = $item->rate;
-                $payroll->save();
-
-            }
-
+            return $this->model()->with(['employee'])->find($data->id);
         }
 
     }

@@ -41,7 +41,7 @@
                 </el-date-picker>
             </el-form-item>
             <el-form-item>
-                <el-button v-loading="loadingGenerate" type="primary" @click="submitForm('form')">Generate</el-button>
+                <el-button :loading="loadingGenerate" type="primary" @click="submitForm('form')">Generate</el-button>
                 <el-button @click="resetForm('form')">Reset</el-button>
             </el-form-item>
         </el-form>

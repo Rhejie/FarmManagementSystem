@@ -20,6 +20,9 @@ class CreatePayrollsTable extends Migration
             $table->date('to_date');
             $table->date('date');
             $table->float('rate')->nullable();
+            $table->json('regular');
+            $table->json('overtime');
+            $table->json('deductions');
             $table->timestamps();
         });
     }

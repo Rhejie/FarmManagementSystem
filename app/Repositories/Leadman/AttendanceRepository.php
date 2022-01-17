@@ -223,7 +223,7 @@ class AttendanceRepository extends Repository {
             if($diff_in_hours == 9 || $diff_in_hours >= 9) {
                 $data->status = 'Full';
             }
-            if($diff_in_hours == 4) {
+            if($diff_in_hours == 4 || $diff_in_hours < 5) {
                 $data->status = 'Half Day';
             }
             if($diff_in_hours < 4 || $diff_in_hours < 9) {

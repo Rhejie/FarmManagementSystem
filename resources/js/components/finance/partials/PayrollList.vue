@@ -84,7 +84,7 @@
                 @handleCurrentChange="handleCurrentChange">
             </global-pagination>
         </div>
-        <el-dialog title="Payroll" width="45%" :visible.sync="dialogTableVisible" :before-close="handleClose">
+        <el-dialog title="Payroll" width="75%" :visible.sync="dialogTableVisible" :before-close="handleClose">
             <view-payroll :model="model"></view-payroll>
         </el-dialog>
     </el-card>

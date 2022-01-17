@@ -10,10 +10,14 @@ class Payroll extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'regular' => 'array',
+        'overtime' => 'array',
+        'deductions' => 'array',
+    ];
+
     public function employee() {
         return $this->belongsTo(Employee::class, 'employee_id', 'id');
     }
-    public function item() {
-        return $this->hasMany(PayrollItem::class, 'payroll_id', 'id');
-    }
+
 }
