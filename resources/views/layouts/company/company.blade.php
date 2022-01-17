@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Farm Management System</title>
-  <script src="/js/app.js" defer></script>
+  <script src="{{ asset('/js/app.js') }}" defer></script>
   <!-- Scripts -->
 
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -199,25 +199,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- jQuery UI 1.11.4 -->
     <script src="{{ asset('vendors/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-      $.widget.bridge('uibutton', $.ui.button)
-    </script>
     <!-- Bootstrap 4 -->
-    <script src="{{ asset('vendors/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- ChartJS -->
-    <script src="{{ asset('vendors/plugins/chart.js/Chart.min.js')}}"></script>
-    <!-- Sparkline -->
-    <script src="{{ asset('vendors/plugins/sparklines/sparkline.js')}}"></script>
-    <!-- JQVMap -->
-    <script src="{{ asset('vendors/plugins/jqvmap/jquery.vmap.min.js')}}"></script>
-    <script src="{{ asset('vendors/plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script>
-    <!-- jQuery Knob Chart -->
-    <script src="{{ asset('vendors/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
-    <!-- daterangepicker -->
-    <script src="{{ asset('vendors/plugins/moment/moment.min.js')}}"></script>
-    <script src="{{ asset('vendors/plugins/daterangepicker/daterangepicker.js')}}"></script>
     <!-- Tempusdominus Bootstrap 4 -->
-    <script src="{{ asset('vendors/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
     <!-- Summernote -->
     <script src="{{ asset('vendors/plugins/summernote/summernote-bs4.min.js')}}"></script>
     <!-- overlayScrollbars -->
@@ -225,7 +208,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- AdminLTE App -->
     <script src="{{ asset('vendors/dist/js/adminlte.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="{{ asset('vendors/dist/js/demo.js')}}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     {{--<script src="{{ asset('vendors/dist/js/pages/dashboard.js')}}"></script> --}}
     </body>

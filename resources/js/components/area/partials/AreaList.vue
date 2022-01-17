@@ -27,6 +27,16 @@
                         :sortable="true">
                     </el-table-column>
                     <el-table-column
+                        prop="lat"
+                        label="LAT"
+                        :sortable="true">
+                    </el-table-column>
+                    <el-table-column
+                        prop="lng"
+                        label="LNG"
+                        :sortable="true">
+                    </el-table-column>
+                    <el-table-column
                         fixed="right"
                         width="110"
                         label="ACTION">

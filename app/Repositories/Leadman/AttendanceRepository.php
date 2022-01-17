@@ -97,7 +97,7 @@ class AttendanceRepository extends Repository {
         $date_now = carbon::now()->format('Y-m-d');
         $time_now = Carbon::now()->format('H:i:s');
 
-        $attendance = $this->model()->where('date', $date_now)->where('employee_id', $params->employee->id)->first();
+        $attendance = $this->model()->with(['employee'])->where('date', $date_now)->where('employee_id', $params->employee->id)->first();
 
         if(empty($attendance)) {
             $newAttendance = new $this->model();
@@ -105,7 +105,11 @@ class AttendanceRepository extends Repository {
             $newAttendance->employee_id = $params->employee->id;
             $newAttendance->time_in = $time_now;
             if($newAttendance->save()) {
-                return 'success_in';
+                $data = [
+                    'profile' => $this->model()->with(['employee'])->find($newAttendance->id),
+                    'status' => 'success_in'
+                ];
+                return $data;
             }
         }
         else {
@@ -115,7 +119,10 @@ class AttendanceRepository extends Repository {
                 $attendance->time_in = $time_now;
 
                 if($attendance->save()) {
-                    return 'success_in';
+                    $data = [
+                        'profile' => $attendance,
+                        'status' => 'success_in'
+                    ];
                 }
             }
             else if(!$attendance->time_out) {
@@ -123,16 +130,40 @@ class AttendanceRepository extends Repository {
                 $attendance->time_out = $time_now;
 
                 if($attendance->save()) {
-                    return 'success_out';
+                    $data = [
+                        'profile' => $attendance,
+                        'status' => 'success_out'
+                    ];
+                    return $data;
                 }
 
             }
             else if(!$attendance->ot_in) {
 
+                $from = Carbon::createFromFormat('H:s:i', $attendance->time_in);
+                $to = Carbon::createFromFormat('H:s:i', $attendance->time_out);
+
+                $diff_in_hours = $to->diffInHours($from);
+
+                if($diff_in_hours < 9) {
+                    $data = [
+                        'profile' => $attendance,
+                        'status' => 'invalid'
+                    ];
+
+                    return $data;
+                }
+
                 $attendance->ot_in = $time_now;
 
                 if($attendance->save()) {
-                    return 'success_ot_in';
+
+                    $data = [
+                        'profile' => $attendance,
+                        'status' => 'success_ot_in'
+                    ];
+
+                    return $data;
                 }
 
             }
@@ -141,12 +172,23 @@ class AttendanceRepository extends Repository {
                 $attendance->ot_out = $time_now;
 
                 if($attendance->save()) {
-                    return 'success_ot_out';
+
+                    $data = [
+                        'profile' => $attendance,
+                        'status' => 'success_ot_out'
+                    ];
+
+                    return $data;
                 }
             }
             else {
 
-                return 'already_time_in_out';
+                $data = [
+                    'profile' => $attendance,
+                    'status' => 'already_time_in_out'
+                ];
+
+                return $data;
             }
 
         }

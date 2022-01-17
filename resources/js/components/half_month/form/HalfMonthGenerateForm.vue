@@ -69,6 +69,7 @@ export default {
             });
         },
         resetForm(formName) {
+            this.$EventDispatcher.fire('RESET_HALFMONT', 'reset')
             this.$refs[formName].resetFields();
         },
         async generateReport() {

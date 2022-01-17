@@ -88,6 +88,10 @@ export default {
     },
     created() {
 
+        this.$EventDispatcher.listen('RESET_HALFMONT', data => {
+            this.loading = true
+        })
+
         this.$EventDispatcher.listen('NEW_GENERATE_REPORT', data => {
 
             this.reports = data.reports

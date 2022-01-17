@@ -63,7 +63,6 @@
                     <el-date-picker
                         v-model="form.date"
                         type="date"
-                        disabled
                         format="yyyy-MM-dd"
                         value-format="yyyy-MM-dd"
                         placeholder="Select date">

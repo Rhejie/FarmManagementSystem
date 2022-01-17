@@ -77,7 +77,11 @@ class AttendanceController extends Controller
 
         if($employee == 'no_employee') {
 
-            return  'no_employee';
+            $data = [
+                'profile' => null,
+                'status' => 'no_employee'
+            ];
+            return  $data;
         }
 
         $params = [

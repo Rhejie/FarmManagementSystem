@@ -21,6 +21,24 @@ files.keys().map(key =>
 import VueGeolocation from 'vue-browser-geolocation';
 Vue.use(VueGeolocation);
 
+import VueQrcodeReader from "vue-qrcode-reader";
+Vue.use(VueQrcodeReader);
+
+import * as VueGoogleMaps from 'vue2-google-maps'
+Vue.use(VueGoogleMaps, {
+    load: {
+      key: 'AIzaSyDgh7OHtp1OWtnwRB1PRJHFCv141RlxAmM',
+      libraries: 'places', // This is required if you use the Autocomplete plugin
+      // OR: libraries: 'places,drawing'
+      // OR: libraries: 'places,drawing,visualization'
+      // (as you require)
+
+      //// If you want to set the version, you can do so:
+      // v: '3.26',
+    },
+    installComponents: true
+})
+
 import html2canvas from 'html2canvas';
 
 import ElementUI from "element-ui";
