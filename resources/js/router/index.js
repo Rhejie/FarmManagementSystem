@@ -259,5 +259,19 @@ export default new VueRouter({
                 }
             ]
         },
+        {
+            path: '/banana',
+            name: 'Banana Main Component',
+            props: true,
+            component: () => import('../components/banana/BananaMainComponent.vue'),
+            children: [
+                {
+                    path: '/yield-report',
+                    name: 'Banana List',
+                    component: () => import('../components/banana/BananaIndex.vue'),
+                    props: true,
+                }
+            ]
+        },
     ]
 })

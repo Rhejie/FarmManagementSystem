@@ -17,6 +17,7 @@ class HalfMonthRepository extends Repository {
     public function getReports($params) {
 
         $reports = $this->model();
+
         if($params->search) {
 
             $reports = $reports->where(function($query) use ($params) {

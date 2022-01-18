@@ -122,6 +122,12 @@
             @endif
             @if(auth()->user()->userType->name == 'Administrator' || auth()->user()->userType->name == 'Leadman')
             <li class="nav-header">PRODUCTION</li>
+            <li class="nav-item">
+                <a href="/banana#/yield-report" class="nav-link {{ Route::is('banana.index') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-database"></i>
+                    <p>Banana Yield Report</p>
+                </a>
+            </li>
             <li class="nav-item  {{ Route::is('month.index') ? 'menu-is-opening menu-open' : '' }}
             {{ Route::is('company.jobs') ? 'menu-is-opening menu-open' : '' }}">
                 <a href="#" class="nav-link {{ Route::is('month.index') ? 'active' : '' }} {{ Route::is('company.jobs') ? 'active' : '' }}">
