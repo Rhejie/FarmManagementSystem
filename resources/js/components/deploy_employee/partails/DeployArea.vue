@@ -105,6 +105,12 @@ export default {
             }
             return latLng(this.coordinates.lat, this.coordinates.lng)
         },
+        deployData () {
+            let deplot = this.deploy.map(dep => {
+                let arrayData = []
+                return dep
+            })
+        }
     },
     methods: {
         async getDeploy() {

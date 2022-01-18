@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth'], function () {
     require_once base_path('routes/moduleRoutes/team.php');
     require_once base_path('routes/moduleRoutes/task.php');
     require_once base_path('routes/moduleRoutes/month.php');
+    require_once base_path('routes/moduleRoutes/dashboard.php');
     require_once base_path('routes/moduleRoutes/daily-operation.php');
 
     Route::get('/scanner', function () {

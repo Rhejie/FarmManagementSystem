@@ -10,6 +10,7 @@ import Team from './team/team'
 import Task from './task/task'
 import Operation from './daily_operation/daily_operation'
 import Month from './month/month'
+import Dashboard from './dashboard/dashboard'
 
 export default {
     Employee,
@@ -23,5 +24,6 @@ export default {
     Team,
     Task,
     Operation,
-    Month
+    Month,
+    Dashboard
 }

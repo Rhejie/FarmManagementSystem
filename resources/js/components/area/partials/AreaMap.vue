@@ -14,7 +14,7 @@
                         :color="area.color"
                         :lat-lngs="area.coordinates"
                         :bind-popup="area.name">
-                            <h3>{{dep.area.name}}</h3>
+                            <h3>{{area.name}}</h3>
                     </l-polygon>
                     <l-tile-layer
                         :url="url"
