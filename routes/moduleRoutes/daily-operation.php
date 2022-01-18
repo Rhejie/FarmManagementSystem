@@ -7,4 +7,5 @@ Route::group(['prefix' => 'operation', 'middleware' => 'auth'], function () {
     Route::post('store-operation', [App\Http\Controllers\Leadman\DailyOperationController::class, 'storeOperation']);
     Route::post('update-operation/{id}', [App\Http\Controllers\Leadman\DailyOperationController::class, 'updateOperation']);
     Route::post('delete-operation/{id}', [App\Http\Controllers\Leadman\DailyOperationController::class, 'deleteOperation']);
+    Route::get('/get-undeployed-operations', [App\Http\Controllers\Leadman\DailyOperationController::class, 'getUndeployedOperations']);
 });

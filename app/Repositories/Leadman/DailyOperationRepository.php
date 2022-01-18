@@ -48,6 +48,42 @@ class DailyOperationRepository extends Repository {
         return $operations;
     }
 
+    public function getUndeployedOperations($params) {
+
+        $operations = $this->model()->with(['team', 'area', 'task'])
+            ->where(\DB::raw("(DATE_FORMAT(date,'%d-%m-%Y'))"), (new Carbon($params->date))->format('d-m-Y'))
+            ->where('is_deploy', 0);
+
+        if($params->search) {
+            $operations = $operations->where(function($query) use ($params) {
+                $query->whereHas('team', function($query) use ($params) {
+                    $query->where(function($query) use ($params) {
+                        $query->where('name', 'LIKE', "%$params->search%");
+                    });
+                });
+                $query->whereHas('area', function($query) use ($params) {
+                    $query->where(function($query) use ($params) {
+                        $query->where('name', 'LIKE', "%$params->search%");
+                    });
+                });
+                $query->whereHas('task', function($query) use ($params) {
+                    $query->where(function($query) use ($params) {
+                        $query->where('name', 'LIKE', "%$params->search%");
+                    });
+                });
+            })->get();
+
+            return $operations;
+
+        }
+
+        $operations = $operations->get();
+
+        return $operations;
+
+
+    }
+
     public function storeOperation($request) {
 
         $check = $this->model()->where('date', $request->date)->where('team_id', $request->team_id)->first();
@@ -106,6 +142,7 @@ class DailyOperationRepository extends Repository {
                 ->with(['team', 'area', 'task'])
                 ->where('date', '>=', $request->date_from)
                 ->where('date', '<=', $request->date_to)
+                ->where('is_deploy', 1)
                 ->get();
 
         return $generate;

@@ -22,8 +22,17 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-                    <deploy-employee-form></deploy-employee-form>
-                    <deploy-employee-list></deploy-employee-list>
+                    <el-tabs type="border-card">
+                        <el-tab-pane label="Deployment">
+                            <deployement-list></deployement-list>
+                        </el-tab-pane>
+                        <el-tab-pane label="Areas" lazy>
+                            <deploy-area></deploy-area>
+                        </el-tab-pane>
+                        <el-tab-pane label="Deployed Teams" lazy>
+                            <deploy-employee-list></deploy-employee-list>
+                        </el-tab-pane>
+                    </el-tabs>
                 </div>
             </section>
         </div>

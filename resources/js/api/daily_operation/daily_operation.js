@@ -12,5 +12,8 @@ export default {
     },
     deleteOperation(id) {
         return axios.post(`/operation/delete-operation/${id}`)
+    },
+    getUndeployedOperations(params) {
+        return axios.get(`/operation/get-undeployed-operations?date=${params.date}&search=${params.search}`)
     }
 }

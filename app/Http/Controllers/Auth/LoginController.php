@@ -49,16 +49,6 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-    	$code = auth()->user()->userType->name;
-
-        if ($code === 'admin') {
-            return redirect(RouteServiceProvider::HOME);
-        }
-        else if ($code  === 'company') {
-            return redirect(RouteServiceProvider::COMPANY);
-        }
-        else if ($code  === 'user') {
-            return redirect(RouteServiceProvider::USER);
-        }
+        return redirect(RouteServiceProvider::HOME);
     }
 }

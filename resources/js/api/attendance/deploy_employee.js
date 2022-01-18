@@ -5,7 +5,7 @@ export default {
     getDeploy(params) {
         return axios.get(`/deploy-employee/get-deploy?date=${params.date}&page=${params.current_page}&count=${params.current_size}&search=${params.search}`)
     },
-    storeDeploy (data) {
+    deployTeam (data) {
         return axios.post(`/deploy-employee/store-deploy`, data)
     },
     updateDeploy (id, data) {
@@ -13,6 +13,8 @@ export default {
     },
     deleteDeploy (id) {
         return axios.post(`/deploy-employee/delete-deploy/${id}`)
+    },
+    getDeployByArea(params) {
+        return axios.get(`/deploy-employee/get-deploy-by-area?date=${params.date}&search=${params.search}`)
     }
-
 }

@@ -19,6 +19,7 @@ class CreateDailyOperationsTable extends Migration
             $table->unsignedBigInteger('area_id');
             $table->unsignedBigInteger('task_id');
             $table->date('date');
+            $table->boolean('is_deploy')->default(false);
             $table->json('members')->nullable();
             $table->timestamps();
         });

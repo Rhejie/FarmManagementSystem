@@ -74,6 +74,7 @@
     </el-card>
 </template>
 <script>
+import moment from 'moment'
 export default {
     name: 'HalfMonthGeneratedList',
     data() {

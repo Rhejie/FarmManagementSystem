@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Leadman;
 
+use App\Models\Leadman\DailyOperation;
 use App\Models\Leadman\DeployEmployee;
 use App\Repositories\Repository;
 use Carbon\Carbon;
@@ -44,6 +45,16 @@ class DeployEmployeeRepository extends Repository {
 
     }
 
+    public function getDeployByArea($params) {
+        $employee =$this->model()->with(['area', 'team', 'task' => function ($query) {
+            $query->with(['task']);
+        }])
+        ->where(\DB::raw("(DATE_FORMAT(date,'%d-%m-%Y'))"), (new Carbon($params->date))->format('d-m-Y'))->get();
+
+
+        return $employee;
+    }
+
     public function storeDeploy($request) {
         $check = $this->model()
             ->where(\DB::raw("(DATE_FORMAT(date,'%d-%m-%Y'))"), (new Carbon($request->date))->format('d-m-Y'))
@@ -58,11 +69,19 @@ class DeployEmployeeRepository extends Repository {
         $data = new $this->model();
         $data->team_id = $request->team_id;
         $data->area_id = $request->area_id;
+        $data->daily_operation_id = $request->id;
         $data->members = $request->members;
         $data->date = $request->date;
 
         if($data->save()) {
-            return $this->model()->with(['area', 'team'])->find($data->id);
+
+            $daily = DailyOperation::find($request->id);
+            $daily->is_deploy = true;
+            $daily->save();
+
+            return $this->model()->with(['area', 'team', 'task' => function ($query) {
+                $query->with(['task']);
+            }])->find($data->id);
         }
 
     }
@@ -86,6 +105,10 @@ class DeployEmployeeRepository extends Repository {
     public function deleteDeploy($id) {
 
         $data = $this->model()->find($id);
+
+        $daily = DailyOperation::find($data->daily_operation_id);
+            $daily->is_deploy = false;
+            $daily->save();
 
         if($data->delete()) {
             return ' delete';

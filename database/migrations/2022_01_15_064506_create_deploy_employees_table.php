@@ -17,7 +17,8 @@ class CreateDeployEmployeesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('team_id');
             $table->unsignedBigInteger('area_id');
-            $table->dateTime('date');
+            $table->unsignedBigInteger('daily_operation_id')->nullable();
+            $table->date('date');
             $table->json('members');
             $table->timestamps();
         });

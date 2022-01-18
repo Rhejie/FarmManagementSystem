@@ -76,11 +76,19 @@
                         :sortable="true">
                     </el-table-column>
                     <el-table-column
+                        prop="is_deploy"
+                        label="DEPLOYE"
+                        :sortable="true">
+                            <template slot-scope="scope">
+                                {{scope.row.is_deploy | isDeploy}}
+                            </template>
+                    </el-table-column>
+                    <el-table-column
                         fixed="right"
                         width="110"
                         label="ACTION">
                         <template slot-scope="scope">
-                            <button @click="askToDelete(scope.$index, scope.row)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                            <button @click="askToDelete(scope.$index, scope.row)" v-if="!scope.row.is_deploy" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                         </template>
                     </el-table-column>
             </el-table>
@@ -145,6 +153,11 @@ export default {
                 return moment(value, 'HH:mm:ss').format('h:mm a')
             }
             return '-'
+        },
+        isDeploy(value) {
+
+            if(value) return 'Yes'
+            return 'No'
         }
     },
     methods: {

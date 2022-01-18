@@ -297,6 +297,11 @@ export default {
                     const res = await this.$API.QrCode.verifiedQrCode(this.form.qrcode);
                     if(res.data == 'ready_use') {
                         this.verify = true;
+                        this.$notify({
+                            title: 'Success',
+                            message: 'Verified!',
+                            type: 'success'
+                        });
                     }
                     else if(res.data == 'already_use') {
                         this.$notify.error({

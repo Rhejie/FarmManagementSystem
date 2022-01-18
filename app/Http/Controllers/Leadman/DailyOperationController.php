@@ -42,6 +42,21 @@ class DailyOperationController extends Controller
 
     }
 
+    public function getUndeployedOperations(Request $request) {
+
+        $search = $request->search && $request->search != '' && $request->search !== 'null' ? $request->search : null;
+        $date = $request->date ? $request->date : null;
+
+        $params = [
+            'search' => $search,
+            'date' => $date,
+        ];
+
+        $operations = $this->dailyOperationRepository->getUndeployedOperations(json_decode(json_encode($params)));
+
+        return response()->json($operations, 200);
+    }
+
     public function storeOperation(Request $request) {
 
         $operation = $this->dailyOperationRepository->storeOperation(json_decode(json_encode($request->all())));

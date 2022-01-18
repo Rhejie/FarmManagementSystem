@@ -21,4 +21,10 @@ class DeployEmployee extends Model
     public function area() {
         return $this->belongsTo(Area::class, 'area_id', 'id');
     }
+
+    public function task() {
+
+        return $this->belongsTo(DailyOperation::class, 'daily_operation_id', 'id');
+
+    }
 }
