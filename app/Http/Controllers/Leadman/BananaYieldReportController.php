@@ -21,6 +21,7 @@ class BananaYieldReportController extends Controller
 
         $years = Harvest::select(\DB::raw("DATE_FORMAT(date,'%Y') as year"))->groupBy('year')->get()->pluck('year');
         $sample_data = [];
+        $harvest_data = [];
 
         if($id) {
             foreach($years as $year) {
@@ -32,6 +33,7 @@ class BananaYieldReportController extends Controller
                             ->get();
 
                         array_push($sample_data, $harvest);
+                        array_push($harvest_data, $harvest);
                     }
                 }
             }

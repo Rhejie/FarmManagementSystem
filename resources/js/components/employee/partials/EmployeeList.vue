@@ -77,11 +77,10 @@
                     </el-table-column>
                     <el-table-column
                         fixed="right"
-                        width="110"
+                        width="80"
                         label="ACTION">
                         <template slot-scope="scope">
                             <button @click="handleEdit(scope.row)" class="btn btn-success btn-sm"><i class="far fa-edit"></i></button>
-                            <button @click="askToDelete(scope.$index, scope.row)" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                         </template>
                     </el-table-column>
             </el-table>

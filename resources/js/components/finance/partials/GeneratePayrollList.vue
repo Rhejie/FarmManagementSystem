@@ -146,7 +146,7 @@
                                 prop="amount"
                                 label="AMOUNT">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.amount" type="number"></el-input>
+                                        <el-input v-model="scope.row.amount" @change="checkDeduction($event, scope.$index)" type="number"></el-input>
                                     </template>
                             </el-table-column>
                             <el-table-column
@@ -191,7 +191,8 @@ export default {
             rate: null,
             rate_ot: null,
             deductions: [],
-            overtime: []
+            overtime: [],
+            salaryError: false,
         }
     },
     created() {
@@ -386,6 +387,28 @@ export default {
         },
         deleteDeductions(index) {
             this.deductions.splice(index, 1)
+        },
+        checkDeduction(value, index) {
+            if(value > this.total_salary) {
+                this.deductions.splice(index, 1)
+            }
+            if(this.salaryError) {
+                this.deductions.splice(index, 1)
+            }
+        }
+    },
+    watch: {
+        total_salary(newVal, oldVal) {
+            if(newVal < 0) {
+                this.$notify.error({
+                    title: 'Error',
+                    message: 'Salary is negative'
+                });
+                this.total_salary = 0
+                this.salaryError = true
+            }
+
+            this.salaryError = false
         }
     }
 }
