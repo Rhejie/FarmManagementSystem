@@ -34,7 +34,7 @@ class DashboardController extends Controller
 
         $date = Carbon::now()->format('Y-m-d');
 
-        $teams = DailyOperation::where('date', $date)->count();
+        $teams = DailyOperation::where('date', $date)->where('is_deploy', 1)->count();
 
         return response()->json($teams, 200);
 

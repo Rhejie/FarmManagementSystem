@@ -1,35 +1,33 @@
 <template>
-     <el-card class="box-card" style="padding:0">
-        <div style="height: 600px; width: 100%">
-            <l-map
-                :zoom="zoom"
-                :center="getFirstArea"
-                :options="mapOptions"
-                @click="customeClick"
-                style="height: 100%"
-                @update:center="centerUpdate"
-                @update:zoom="zoomUpdate">
-                    <l-polygon
-                        v-for="area in areas.filter(area => area.status == 'Publish')" :key="area.id"
-                        :color="area.color"
-                        :lat-lngs="area.coordinates"
-                        :bind-popup="area.name">
-                            <l-popup>
-                                <h3>{{area.name}}</h3>
-                            </l-popup>
-                    </l-polygon>
-                    <l-tile-layer
-                        :url="url"
-                        :attribution="attribution"/>
-            </l-map>
-        </div>
-     </el-card>
+    <div style="height: 600px; width: 100%">
+        <l-map
+            :zoom="zoom"
+            :center="getFirstArea"
+            :options="mapOptions"
+            @click="customeClick"
+            style="height: 100%"
+            @update:center="centerUpdate"
+            @update:zoom="zoomUpdate">
+                <l-polygon
+                    v-for="area in areas.filter(area => area.status == 'Publish')" :key="area.id"
+                    :color="area.color"
+                    :lat-lngs="area.coordinates"
+                    :bind-popup="area.name">
+                        <l-popup>
+                            <h3>{{area.name}}</h3>
+                        </l-popup>
+                </l-polygon>
+                <l-tile-layer
+                    :url="url"
+                    :attribution="attribution"/>
+        </l-map>
+    </div>
 </template>
 <script>
 import { latLng , Icon} from "leaflet";
 import { LMap, LTileLayer, LMarker, LPopup, LTooltip , LCircle, LIcon, LPolygon,} from "vue2-leaflet";
 export default {
-    name: 'AreaMap',
+    name: 'AreaMapDashboard',
     components: {
         LMap,
         LTileLayer,
@@ -42,7 +40,7 @@ export default {
     },
     data() {
         return {
-            zoom: 15,
+            zoom: 13,
             center: latLng(0, 0),
             url: 'https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=cac1c63e746741a79462820881e7f2c6',
             attribution: 'Farm Management',
