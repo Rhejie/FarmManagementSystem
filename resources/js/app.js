@@ -47,6 +47,9 @@ import API from "./api/index.js";
 import DateFormatter from "./service/DateFormatter";
 
 
+import VueHtmlToPaper from 'vue-html-to-paper';
+Vue.prototype.$htmlToPaper = VueHtmlToPaper;
+
 import router from "./router";
 
 Vue.prototype.$EventDispatcher = new EventDispatcher();

@@ -16,20 +16,6 @@
         <a href="#" class="d-block">{{auth()->user()->userType->name }}</a>
         </div>
     </div>
-
-    <!-- SidebarSearch Form -->
-    {{-- <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-        <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-            <button class="btn btn-sidebar">
-            <i class="fas fa-search fa-fw"></i>
-            </button>
-        </div>
-        </div>
-    </div> --}}
-
-    <!-- Sidebar Menu -->
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
@@ -43,30 +29,7 @@
                     </p>
                 </a>
             </li>
-            {{-- <li class="nav-item  {{ Route::is('company.create.job') ? 'menu-is-opening menu-open' : '' }}
-            {{ Route::is('company.jobs') ? 'menu-is-opening menu-open' : '' }}">
-                <a href="#" class="nav-link {{ Route::is('company.create.job') ? 'active' : '' }} {{ Route::is('company.jobs') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-copy"></i>
-                <p>
-                    Job
-                    <i class="fas fa-angle-left right"></i>
-                </p>
-                </a>
-                <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/company/job/create" class="nav-link {{ Route::is('company.create.job') ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Create</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/company/jobs" class="nav-link {{ Route::is('company.jobs') ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Jobs List</p>
-                    </a>
-                </li>
-                </ul>
-            </li> --}}
+            @if(auth()->user()->userType->name == 'Administrator' || auth()->user()->userType->name == 'Human Resource Staff' || auth()->user()->userType->name == 'Leadman')
             <li class="nav-header">ATTENDANCE</li>
             <li class="nav-item">
                 <a href="/attendance#/attendance" class="nav-link {{ Route::is('attendance.index') ? 'active' : '' }}">
@@ -74,6 +37,8 @@
                     <p>Attendance</p>
                 </a>
             </li>
+            @endif
+            @if(auth()->user()->userType->name == 'Administrator' || auth()->user()->userType->name == 'Human Resource Staff')
             <li class="nav-item">
                 <a href="/overtime#/overtime-list" class="nav-link {{ Route::is('overtime.index') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-clock"></i>
@@ -87,12 +52,8 @@
                 <p>Employees</p>
                 </a>
             </li>
-            {{-- <li class="nav-item">
-                <a href="/payroll#/payrolls" class="nav-link {{ Route::is('payroll.index') ? 'active' : '' }}">
-                <i class="fas fa-users nav-icon"></i>
-                <p>Payroll</p>
-                </a>
-            </li> --}}
+            @endif
+            @if(auth()->user()->userType->name == 'Administrator' || auth()->user()->userType->name == 'Finance Staff')
             <li class="nav-header">FINANCE</li>
             <li class="nav-item  {{ Route::is('payroll.index') ? 'menu-is-opening menu-open' : '' }}
             {{ Route::is('company.jobs') ? 'menu-is-opening menu-open' : '' }}">
@@ -118,6 +79,8 @@
                 </li>
                 </ul>
             </li>
+            @endif
+            @if(auth()->user()->userType->name == 'Administrator' || auth()->user()->userType->name == 'Warehouse Staff')
             <li class="nav-header">WAREHOUSE</li>
             <li class="nav-item">
                 <a href="/stocks#/stocks" class="nav-link {{ Route::is('warehouse.stock') ? 'active' : '' }}">
@@ -137,32 +100,28 @@
                     <p>Category</p>
                 </a>
             </li>
+            @endif
+            @if(auth()->user()->userType->name == 'Administrator' || auth()->user()->userType->name == 'Warehouse Staff' || auth()->user()->userType->name == 'Leadman')
             <li class="nav-header">OPERATIONS</li>
-            {{-- <li class="nav-item">
-                <a href="/company/profile" class="nav-link {{ Route::is('company.profile') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-user"></i>
-                <p>Profile</p>
-                </a>
-            </li> --}}
-            <li class="nav-item">
-                <a href="/deploy-employee#/deploy-employees" class="nav-link {{ Route::is('deploy-employee.index') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-user-friends"></i>
-                    <p>Deploy Team</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/deploy#/deploy" class="nav-link {{ Route::is('deploy.index') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-box-open"></i>
-                    <p>Deploy Stocks</p>
-                </a>
-            </li>
+                @if(auth()->user()->userType->name == 'Administrator' || auth()->user()->userType->name == 'Leadman')
+                <li class="nav-item">
+                    <a href="/deploy-employee#/deploy-employees" class="nav-link {{ Route::is('deploy-employee.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-user-friends"></i>
+                        <p>Deploy Team</p>
+                    </a>
+                </li>
+                @endif
+                @if(auth()->user()->userType->name == 'Administrator' || auth()->user()->userType->name == 'Warehouse Staff')
+                <li class="nav-item">
+                    <a href="/deploy#/deploy" class="nav-link {{ Route::is('deploy.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-box-open"></i>
+                        <p>Deploy Stocks</p>
+                    </a>
+                </li>
+                @endif
+            @endif
+            @if(auth()->user()->userType->name == 'Administrator' || auth()->user()->userType->name == 'Leadman')
             <li class="nav-header">PRODUCTION</li>
-            {{-- <li class="nav-item">
-                <a href="/company/profile" class="nav-link {{ Route::is('company.profile') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-user"></i>
-                <p>Profile</p>
-                </a>
-            </li> --}}
             <li class="nav-item  {{ Route::is('month.index') ? 'menu-is-opening menu-open' : '' }}
             {{ Route::is('company.jobs') ? 'menu-is-opening menu-open' : '' }}">
                 <a href="#" class="nav-link {{ Route::is('month.index') ? 'active' : '' }} {{ Route::is('company.jobs') ? 'active' : '' }}">
@@ -211,13 +170,9 @@
                     <p>Team</p>
                 </a>
             </li>
+            @endif
+            @if(auth()->user()->userType->name == 'Administrator' || auth()->user()->userType->name == 'Human Resource Staff')
             <li class="nav-header">QR CODE</li>
-            {{-- <li class="nav-item">
-                <a href="/company/profile" class="nav-link {{ Route::is('company.profile') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-user"></i>
-                <p>Profile</p>
-                </a>
-            </li> --}}
             <li class="nav-item">
                 <a href="/qr-code#/codes" class="nav-link {{ Route::is('qr-code.index') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-qrcode"></i>
@@ -230,26 +185,17 @@
                     <p>Scanner</p>
                 </a>
             </li>
+            @endif
+            @if(auth()->user()->userType->name == 'Administrator' || auth()->user()->userType->name == 'Leadman')
             <li class="nav-header">Area</li>
-            {{-- <li class="nav-item">
-                <a href="/company/profile" class="nav-link {{ Route::is('company.profile') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-user"></i>
-                <p>Profile</p>
-                </a>
-            </li> --}}
             <li class="nav-item">
                 <a href="/areas#/areas" class="nav-link {{ Route::is('area.index') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-map-marker-alt"></i>
                     <p>Areas</p>
                 </a>
             </li>
+            @endif
             <li class="nav-header">SETTINGS</li>
-            {{-- <li class="nav-item">
-                <a href="/company/profile" class="nav-link {{ Route::is('company.profile') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-user"></i>
-                <p>Profile</p>
-                </a>
-            </li> --}}
             <li class="nav-item">
                 <a href="{{ route('logout') }}"
                 onclick="event.preventDefault();

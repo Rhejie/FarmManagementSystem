@@ -23,7 +23,7 @@
                 <div class="container-fluid">
                     <records-view></records-view>
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-12">
                             <area-map-dashboard></area-map-dashboard>
                         </div>
                     </div>

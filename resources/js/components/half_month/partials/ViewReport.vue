@@ -69,7 +69,7 @@
                                         prop="date"
                                         label="DATE">
                                             <template slot-scope="scope">
-                                                {{scope.row.date | fileDate}}
+                                                {{scope.row.date | filterDate}}
                                             </template>
                                     </el-table-column>
                                     <el-table-column
@@ -98,6 +98,7 @@
     </div>
 </template>
 <script>
+import moment from 'moment'
 export default {
     name: 'ReportDetails',
     props: {

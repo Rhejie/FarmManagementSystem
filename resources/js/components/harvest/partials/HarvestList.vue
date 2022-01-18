@@ -68,6 +68,7 @@
 </template>
 <script>
 import paginate from '../../../mixin/pagination'
+import moment from 'moment'
 export default {
     name: 'HarvestList',
     mixins: [paginate],

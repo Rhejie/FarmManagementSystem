@@ -16,9 +16,7 @@ class HalfMonthRepository extends Repository {
 
     public function getReports($params) {
 
-        $reports = $this->model()
-        ->where(\DB::raw("(DATE_FORMAT(to_date,'%d-%m-%Y'))"), (new Carbon($params->date))->format('d-m-Y'));
-
+        $reports = $this->model();
         if($params->search) {
 
             $reports = $reports->where(function($query) use ($params) {

@@ -145,6 +145,10 @@ class AttendanceRepository extends Repository {
 
                 $diff_in_hours = $to->diffInHours($from);
 
+                if($diff_in_hours == 8) {
+                    $diff_in_hours += 1;
+                }
+
                 if($diff_in_hours < 9) {
                     $data = [
                         'profile' => $attendance,
