@@ -43,6 +43,16 @@ php artisan migratre --seed
 php artisan serve
 ```
 
+
+```bash
+go to http://127.0.0.1:8080/login
+```
+
+```bash
+users 
+admin@gmail.com / 123456
+```
+
 And navigate to generated server link (http://127.0.0.1:8000)
 ## About Laravel
 
