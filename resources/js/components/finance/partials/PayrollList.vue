@@ -70,7 +70,7 @@
                         width="180"
                         label="ACTION">
                         <template slot-scope="scope">
-                            <a :href="`finance/payslip/${scope.row.id}`" class="btn btn-info btn-sm" target="_blank">Payslip</a>
+                            <button @click="handlePayslip(scope.row)" class="btn btn-info btn-sm">Payslip</button>
                             <button @click="handleView(scope.row)" class="btn btn-success btn-sm">View</button>
                         </template>
                     </el-table-column>
@@ -86,6 +86,9 @@
         </div>
         <el-dialog title="Payroll" width="75%" :visible.sync="dialogTableVisible" :before-close="handleClose">
             <view-payroll :model="model"></view-payroll>
+        </el-dialog>
+        <el-dialog title="Payroll" width="75%" :visible.sync="dialogTableVisiblePayslip" :before-close="handleClose">
+            <print-payslip :model="model"></print-payslip>
         </el-dialog>
     </el-card>
 </template>
@@ -107,6 +110,7 @@ export default {
             model: {},
             dialogTableVisible: false,
             date: '',
+            dialogTableVisiblePayslip: false
         }
     },
     created() {
@@ -194,6 +198,10 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+        handlePayslip(data) {
+            this.dialogTableVisiblePayslip = true;
+            this.model = {...data}
         },
         handleView(data) {
             this.model = {...data}
