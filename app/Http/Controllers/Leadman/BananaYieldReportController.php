@@ -28,7 +28,7 @@ class BananaYieldReportController extends Controller
                 if($year) {
                     if($year != $current_year) {
                         $harvest = Harvest::select(\DB::raw("DATE_FORMAT(date,'%M') as month"),
-                                            \DB::raw("SUM(stem_cut) as stem_cut"))->where('arae_id', $id)
+                                            \DB::raw("AVG(stem_cut) as stem_cut"))->where('arae_id', $id)
                             ->where(\DB::raw("(DATE_FORMAT(date,'%Y'))"), $year)->groupBy('Month')
                             ->get();
 
@@ -46,7 +46,7 @@ class BananaYieldReportController extends Controller
 
             $posibleData = \collect($new_array)->groupBy('month')
                 ->map(function ($item) {
-                    return [$item[0]['month'], $item->average('stem_cut')];
+                    return [$item[0]['month'], $item->avg->stem_cut];
                 });
 
             $months = [];
