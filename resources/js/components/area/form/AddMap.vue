@@ -10,8 +10,9 @@
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"></li>
+                            <li class="breadcrumb-item"><a href="/home">Home</a></li>
                             <li class="breadcrumb-item"><a href="/areas#/areas">Areas</a></li>
+                            <li class="breadcrumb-item active">Add Area</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -162,8 +163,11 @@ export default {
         async storeArea() {
             try {
                 if(this.polygons.length < 0) {
-
-                    return
+                    this.$notify.error({
+                            title: 'Error',
+                            message: 'Draw and Area first'
+                        });
+                    return;
                 }
                 this.form.coordinates = this.polygons
                 const res = await this.$API.Area.storeArea(this.form)
