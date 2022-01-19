@@ -30,6 +30,13 @@ npm run dev
 cp .env.example .env
 ```
 
+```bash
+php artisan key:generate
+```
+
+```bash
+create database farm_management
+```
 
 ```bash
 update the database name inside .env file
