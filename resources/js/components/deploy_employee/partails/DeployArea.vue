@@ -16,7 +16,30 @@
                 :options="mapOptions"
                 style="height: 100%">
                     <l-polygon
-                        v-for="dep in deploy" :key="dep.id"
+                        v-for="(area, index) in deploy" :key="index"
+                        :color="area.color"
+                        :lat-lngs="area.coordinates">
+                        <l-popup>
+                            <h4>{{area.name}}</h4>
+                            <div v-for="(dep, index2) in area.deploy_team" :key="index2">
+                                <span style="padding:0; margin:0; magin-bottom:0;">TASK: {{dep.task.task.name}} </span>
+                                <div style="width: 100%">
+                                    <table class="table table-sm table-bordered table-striped">
+                                        <thead>
+                                            <th>Members</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="member in dep.members" :key="member.id">
+                                                <td>{{member.lastname}}, {{member.firstname}} - ( {{member.position}} )</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </l-popup>
+                    </l-polygon>
+                    <!--<l-polygon
+                        v-for="(dep, index) in deploy" :key="index"
                         :color="dep.area.color"
                         :lat-lngs="dep.area.coordinates"
                         :bind-popup="dep.area.name">
@@ -37,7 +60,7 @@
                                 </el-table>
                             </div>
                         </l-popup>
-                    </l-polygon>
+                    </l-polygon> -->
                     <l-tile-layer
                         :url="url"
                         :attribution="attribution"/>
@@ -82,6 +105,7 @@ export default {
     mounted() {
 
         this.getLocation()
+
     },
     created() {
         this.date = new Date();
@@ -98,8 +122,8 @@ export default {
     computed: {
         getFirstArea() {
             if(this.deploy.length > 0) {
-                if(this.deploy[0].area.coordinates.length > 0) {
-                    return latLng(this.deploy[0].area.coordinates[0][0], this.deploy[0].area.coordinates[0][1])
+                if(this.deploy[0].coordinates.length > 0) {
+                    return latLng(this.deploy[0].coordinates[0][0], this.deploy[0].coordinates[0][1])
                 }
                 return latLng(this.coordinates.lat, this.coordinates.lng)
             }

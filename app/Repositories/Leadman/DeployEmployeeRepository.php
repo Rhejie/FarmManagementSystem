@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Leadman;
 
+use App\Models\HR\Area;
 use App\Models\Leadman\DailyOperation;
 use App\Models\Leadman\DeployEmployee;
 use App\Repositories\Repository;
@@ -46,13 +47,26 @@ class DeployEmployeeRepository extends Repository {
     }
 
     public function getDeployByArea($params) {
-        $employee =$this->model()->with(['area', 'team', 'task' => function ($query) {
-            $query->with(['task']);
-        }])
-        ->where(\DB::raw("(DATE_FORMAT(date,'%d-%m-%Y'))"), (new Carbon($params->date))->format('d-m-Y'))->get();
+        // $employee =$this->model()->with(['area', 'team', 'task' => function ($query) {
+        //     $query->with(['task']);
+        // }])
+        // ->where(\DB::raw("(DATE_FORMAT(date,'%d-%m-%Y'))"), (new Carbon($params->date))->format('d-m-Y'))->get();
 
+        // $employee = $employee->groupBy([function($val) {
+        //     return $val->area->name;
+        // }]);
 
-        return $employee;
+        $teams = Area::with(['deployTeam' => function($query){
+            $query->with(['team', 'task' => function($query){
+                $query->with(['task']);
+            }]);
+        }])->whereHas('deployTeam', function($query) use ($params) {
+            $query->where(function($query) use ($params) {
+                $query->where(\DB::raw("(DATE_FORMAT(date,'%d-%m-%Y'))"), (new Carbon($params->date))->format('d-m-Y'));
+            });
+        })->get();
+
+        return $teams;
     }
 
     public function storeDeploy($request) {
