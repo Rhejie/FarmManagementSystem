@@ -142,7 +142,7 @@ export default {
             console.log(item.latlng);
         },
         addCoordinates() {
-            alert('ads')
+            // alert('ads')
         },
         refresh() {
             this.getAreas();
