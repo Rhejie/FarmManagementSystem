@@ -34,11 +34,10 @@
                     </el-table-column>
                     <el-table-column
                         fixed="right"
-                        width="90"
+                        width="70"
                         label="ACTION">
                         <template slot-scope="scope">
                             <button @click="handleEdit(scope.row)" class="btn btn-text btn-sm"><i class="far fa-edit"></i></button>
-                            <button @click="askToDelete(scope.$index, scope.row)" class="btn btn-text btn-sm"><i class="fas fa-trash"></i></button>
                         </template>
                     </el-table-column>
             </el-table>
@@ -118,9 +117,7 @@ export default {
             }
         },
         addArea() {
-            this.dialogTableVisible = true;
-            this.model = {}
-            this.mode = 'create';
+            this.$router.push({name: 'Add Map'})
         },
         handleEdit(data) {
             this.model = {...data};

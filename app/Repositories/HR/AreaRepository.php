@@ -50,8 +50,14 @@ class AreaRepository extends Repository {
 
         $data = new $this->model();
 
+        $new_coodinates = [];
+        foreach($request->coordinates[0] as $coo) {
+            array_push($new_coodinates, [$coo->lat, $coo->lng]);
+        }
+
         $data->name = $request->name;
         $data->color = $request->color;
+        $data->coordinates = $new_coodinates;
         if($data->save()) {
             return $this->model()->find($data->id);
         }

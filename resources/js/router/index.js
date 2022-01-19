@@ -80,10 +80,10 @@ export default new VueRouter({
                     component: () => import('../components/area/AreaIndex.vue')
                 },
                 {
-                    path: '/area-view',
-                    name: 'Area View',
+                    path: '/add-area',
+                    name: 'Add Map',
                     props: true,
-                    component: () => import('../components/area/partials/AreaView.vue')
+                    component: () => import('../components/area/form/AddMap.vue')
                 }
             ]
         },

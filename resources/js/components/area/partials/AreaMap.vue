@@ -1,11 +1,14 @@
 <template>
      <el-card class="box-card" style="padding:0">
+        <button class="btn btn-default" @click="refresh" style="margin-bottom:10px"><i class="fas fa-retweet"></i></button>
         <div style="height: 600px; width: 100%">
             <l-map
                 :zoom="zoom"
                 :center="getFirstArea"
                 :options="mapOptions"
                 @click="customeClick"
+                @dblclick="addArea"
+                @click.right="addCoordinates"
                 style="height: 100%"
                 @update:center="centerUpdate"
                 @update:zoom="zoomUpdate">
@@ -133,10 +136,17 @@ export default {
             alert("Click!");
         },
         customeClick(item) {
-            const {latlng} = item
-            console.log('lat ug lng angkuhaon sa clik', item);
 
         },
+        addArea(item) {
+            console.log(item.latlng);
+        },
+        addCoordinates() {
+            alert('ads')
+        },
+        refresh() {
+            this.getAreas();
+        }
     },
 }
 </script>

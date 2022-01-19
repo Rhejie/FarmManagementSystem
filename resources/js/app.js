@@ -49,6 +49,7 @@ import DateFormatter from "./service/DateFormatter";
 
 import VueHtmlToPaper from 'vue-html-to-paper';
 
+
 const options = {
   name: '_blank',
   specs: [
