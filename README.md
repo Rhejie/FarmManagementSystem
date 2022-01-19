@@ -6,7 +6,44 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
+Database Setup
+1. Create farm_management database
 
+Assuming your machine meets all requirements - let's process to installation of SprintHR Version 2.
+
+1. Open in cmd or terminal app and navigate to this folder
+2. Run following commands
+
+```bash
+composer install
+```
+
+```bash
+npm install
+```
+
+```bash
+npm run dev
+```
+
+```bash
+cp .env.example .env
+```
+
+
+```bash
+update the database name inside .env file
+```
+
+```bash
+php artisan migratre --seed
+```
+
+```bash
+php artisan serve
+```
+
+And navigate to generated server link (http://127.0.0.1:8000)
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
