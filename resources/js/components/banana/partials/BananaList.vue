@@ -19,6 +19,13 @@
                     </el-option>
             </el-select>
             <line-chart :chartdata="chartData" v-if="!loadingData" :options="chartOptions"></line-chart>
+
+            <h3>RECORDS</h3>
+            <el-tabs type="border-card" v-if="!loadingData">
+                <el-tab-pane v-for="(report, index) in bananaReportByYear" :key="index" :label="index">
+                    <data-report-list :report="report"></data-report-list>
+                </el-tab-pane>
+            </el-tabs>
         </div>
     </el-card>
 </template>
@@ -97,7 +104,9 @@
                 },
                 loadingData: false,
                 loadingArea: false,
-                areas: []
+                areas: [],
+                loadingDataByYear: false,
+                bananaReportByYear: []
             }
         },
         async created() {
@@ -112,8 +121,19 @@
                     this.chartData.labels = this.bananaReport.months
                     this.chartData.datasets[0].data = this.bananaReport.stem_cut
                     this.loadingData = false
+                    await this.getData()
                 } catch (error) {
                     console.log(error)
+                }
+            },
+            async getData() {
+                try {
+                    this.loadingDataByYear = true
+                    const res = await this.$API.Report.getBananaReportByYear(this.area)
+                    this.bananaReportByYear = (res.data);
+                    this.loadingDataByYear = false
+                } catch (error) {
+                    console.log(error);
                 }
             },
             async remoteMethodArea(query) {

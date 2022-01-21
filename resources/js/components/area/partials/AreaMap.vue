@@ -145,7 +145,7 @@ export default {
             // alert('ads')
         },
         refresh() {
-            this.getAreas();
+            this.getAreas();git
         }
     },
 }

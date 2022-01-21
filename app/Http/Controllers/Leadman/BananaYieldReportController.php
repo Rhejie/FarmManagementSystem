@@ -57,8 +57,21 @@ class BananaYieldReportController extends Controller
                 array_push($stem_cut, $data[1]);
             }
 
-            return response()->json([ 'months' => $months, 'stem_cut' => $stem_cut], 200);
+            return response()->json([ 'months' => $months, 'stem_cut' => $stem_cut, 'sampleData' => $sample_data], 200);
         }
 
+    }
+
+    public function getData($id) {
+
+        if($id) {
+            $harvest_data = Harvest::with('area')->where('arae_id', $id)->get();
+
+            $harvest_data = $harvest_data->groupBy(function($val) {
+                return Carbon::parse($val['date'])->format('Y');
+            });
+
+            return response()->json($harvest_data, 200);
+        }
     }
 }
