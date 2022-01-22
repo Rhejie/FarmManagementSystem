@@ -7,10 +7,10 @@
                     <hr>
                 </div>
                 <div class="col-md-12 info">
-                    <el-descriptions border :column="2">
+                    <el-descriptions border :column="1">
                         <el-descriptions-item label="Pay Period">{{fromDate}} - {{toDate}}</el-descriptions-item>
-                        <el-descriptions-item label="Rate">P {{this.payslip.rate}}</el-descriptions-item>
                         <el-descriptions-item label="Position">{{position}}</el-descriptions-item>
+                        <el-descriptions-item label="Rate">P {{this.payslip.rate}}</el-descriptions-item>
                     </el-descriptions>
                     <table class="table table-bordered table-sm">
                         <thead>
@@ -69,7 +69,7 @@
                         </tbody>
                     </table>
                     <div class="row">
-                        <div class="col-md-12" style="text-align:right; padding-right:10px">
+                        <div class="col-md-12" style="text-align:right; padding-right:10px; padding-right:20px;">
                             <p>Net Salary: P {{net_salary}}</p>
                         </div>
                     </div>

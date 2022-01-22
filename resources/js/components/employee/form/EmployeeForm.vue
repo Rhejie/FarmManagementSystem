@@ -2,7 +2,7 @@
 
     <el-form :model="form" :rules="rules" ref="form" label-position="top" label-width="120px" class="demo-ruleForm">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" v-if="mode != 'update'">
                 <el-button style="float:right" @click="verfiedQr" :loading="loadingVerifed" :disabled="verify">Verified QRCode</el-button>
                 <el-form-item label="QRCode" prop="qrcode">
                     <el-input v-model="form.qrcode" :disabled="verify" placeholder="QRCode"></el-input>

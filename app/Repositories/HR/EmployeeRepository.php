@@ -152,4 +152,10 @@ class EmployeeRepository extends Repository {
         return $employee;
 
     }
+
+    public function getProfile($id) {
+        $employee = $this->model()->find($id);
+
+        return $employee;
+    }
 }

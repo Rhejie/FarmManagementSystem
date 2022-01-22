@@ -73,4 +73,12 @@ class EmployeeController extends Controller
 
         return response()->json($employee, 200);
     }
+
+    public function getProfile($id) {
+
+        $employee = $this->employeeRepository->getProfile($id);
+
+        return response()->json($employee, 200);
+
+    }
 }

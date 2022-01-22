@@ -21,8 +21,8 @@ class PayrollRepository extends Repository {
 
     public function getPayrolls($params) {
 
-        $payrolls = $this->model()->with(['employee'])
-            ->where(\DB::raw("(DATE_FORMAT(to_date,'%d-%m-%Y'))"), (new Carbon($params->date))->format('d-m-Y'));
+        $payrolls = $this->model()->with(['employee']);
+            // ->where(\DB::raw("(DATE_FORMAT(to_date,'%d-%m-%Y'))"), (new Carbon($params->date))->format('d-m-Y'));
 
             if($params->search) {
 

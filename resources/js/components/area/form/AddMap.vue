@@ -69,6 +69,9 @@ import LFreeDraw from 'vue2-leaflet-freedraw';
 import { NONE, ALL, DELETE } from 'leaflet-freedraw';
 export default {
     name: 'AddMap',
+    props: {
+        mode: null
+    },
     components: {
         LMap,
         LTileLayer,

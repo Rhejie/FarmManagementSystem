@@ -137,8 +137,8 @@
                             </el-descriptions>
                         </div>
                         <div class="col-md-12" style="margin-top:10px; ">
-                            <button @click="payslip()" class="btn btn-info btn-sm"><i class="fas fa-file"></i> Print</button>
-                             <!--<a :href="`finance/payslip/${payroll.id}`" class="btn btn-success btn-sm" target="_blank"><i class="fas fa-arrow-down"></i> Download</a> -->
+                            <!--<button @click="payslip()" class="btn btn-info btn-sm"><i class="fas fa-file"></i> Print</button>
+                            <a :href="`finance/payslip/${payroll.id}`" class="btn btn-success btn-sm" target="_blank"><i class="fas fa-arrow-down"></i> Download</a> -->
                         </div>
                     </div>
                 </div>

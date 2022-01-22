@@ -9,13 +9,13 @@
                 @keyup.enter.native="applySearch"
                 v-model="search">
             </el-input>
-            <el-date-picker
+            <!--<el-date-picker
                 v-model="date"
                 @change="changeDate"
                 type="date"
                 :clearable="false"
                 placeholder="Pick a day">
-            </el-date-picker>
+            </el-date-picker> -->
             <el-table
                 :data="payroll"
                 v-loading="loading"

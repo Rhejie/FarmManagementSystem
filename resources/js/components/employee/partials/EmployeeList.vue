@@ -70,17 +70,12 @@
                         :sortable="true">
                     </el-table-column>
                     <el-table-column
-                        prop="address"
-                        label="ADDRESS"
-                        show-overflow-tooltip
-                        :sortable="true">
-                    </el-table-column>
-                    <el-table-column
                         fixed="right"
-                        width="80"
+                        width="110"
                         label="ACTION">
                         <template slot-scope="scope">
                             <button @click="handleEdit(scope.row)" class="btn btn-success btn-sm"><i class="far fa-edit"></i></button>
+                            <button @click="handleView(scope.row)" class="btn btn-info btn-sm"><i class="far fa-eye"></i></button>
                         </template>
                     </el-table-column>
             </el-table>
@@ -168,6 +163,9 @@ export default {
             this.model = {...data}
             this.mode = 'update'
             this.dialogTableVisible = true;
+        },
+        handleView(data) {
+            this.$router.push({name: 'Employee Details', params: {id: data.id, model: data} })
         },
         askToDelete(index, data) {
             this.$confirm('This will permanently delete the file. Continue?', 'Warning', {

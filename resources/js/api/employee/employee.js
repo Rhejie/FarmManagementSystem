@@ -16,5 +16,8 @@ export default {
     },
     searchEmployee(search) {
         return axios.get(`/employee/search-employee?search=${search}`)
+    },
+    getProfile(id) {
+        return axios.get(`/employee/get-profile/${id}`)
     }
 }

@@ -22,6 +22,12 @@ export default new VueRouter({
                     name: 'Employee List',
                     props: true,
                     component: () => import('../components/employee/EmployeeIndex.vue')
+                },
+                {
+                    path: '/employee-details/:id',
+                    name: 'Employee Details',
+                    props: true,
+                    component: () => import('../components/employee/partials/EmpoyeeDetails.vue')
                 }
             ]
         },
