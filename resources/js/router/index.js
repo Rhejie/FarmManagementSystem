@@ -90,6 +90,12 @@ export default new VueRouter({
                     name: 'Add Map',
                     props: true,
                     component: () => import('../components/area/form/AddMap.vue')
+                },
+                {
+                    path: '/add-area/:id',
+                    name: 'Edit Map',
+                    props: true,
+                    component: () => import('../components/area/form/AddMap.vue')
                 }
             ]
         },

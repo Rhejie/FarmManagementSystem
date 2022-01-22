@@ -70,7 +70,9 @@ import { NONE, ALL, DELETE } from 'leaflet-freedraw';
 export default {
     name: 'AddMap',
     props: {
-        mode: null
+        type: null,
+        id: null,
+        model: {}
     },
     components: {
         LMap,
@@ -110,14 +112,17 @@ export default {
                     { required: true, message: 'Please input select color', trigger: 'blur' }
                 ],
             },
-            loadingMap: false
+            loadingMap: false,
+            editArea: []
         }
     },
     mounted() {
         this.getLocation()
     },
     created() {
-
+        if(this.type == 'update' && this.model && this.model.id) {
+            this.polygons = this.model.coordinates
+        }
     },
     computed: {
         mode() {

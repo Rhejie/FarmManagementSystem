@@ -16,6 +16,7 @@
                         v-for="area in areas.filter(area => area.status == 'Publish')" :key="area.id"
                         :color="area.color"
                         :lat-lngs="area.coordinates"
+                        @click.right="updateArea(area)"
                         :bind-popup="area.name">
                             <l-popup>
                                 <h3>{{area.name}}</h3>
@@ -56,7 +57,9 @@ export default {
                 zoomSnap: 0.5
             },
             coordinates: {},
-            areas: []
+            areas: [],
+            mode: '',
+            model: {}
         }
     },
     mounted() {
@@ -141,8 +144,22 @@ export default {
         addArea(item) {
             console.log(item.latlng);
         },
-        addCoordinates() {
-            // alert('ads')
+        addCoordinates(item) {
+            console.log(item);
+        },
+        updateArea(area) {
+            this.$confirm('Edit this Area?', 'Warning', {
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+            }).then(() => {
+                this.$router.push({name: 'Edit Map', params: {id: area.id, type: 'update', model: area} })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: 'Edit canceled'
+                });
+            });
         },
         refresh() {
             this.getAreas();git
