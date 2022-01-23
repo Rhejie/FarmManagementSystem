@@ -27,8 +27,8 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-3" style="text-align:center">
-                                    <img v-if="profile.profile" style="width: 100%" :src="`storage/${profile.profile_path}/${profile.profile}`" alt="Profile">
-                                    <img v-else :src="`/img/profile-default.png`" alt="profile">
+                                    <img v-if="profile.profile" :src="`storage/${profile.profile_path}/${profile.profile}`" alt="Profile">
+                                    <img v-else :src="`/img/profile-default.png`" style="width: 100%" alt="profile">
                                     <p>Profile</p>
                                 </div>
                                 <div class="col-md-9">
@@ -46,7 +46,7 @@
                                 <div class="col-md-12">
                                     <el-card class="box-card">
                                         <div  class="text item">
-                                            <el-descriptions :column="3" title="INFORMATION" style="font-size: 30px">
+                                            <el-descriptions :column="3" style="font-size: 30px">
                                                 <el-descriptions-item label="Gender">{{profile.gender}}</el-descriptions-item>
                                                 <el-descriptions-item label="Birthday">{{profile.birthday}}</el-descriptions-item>
                                                 <el-descriptions-item label="Contact">{{profile.contact}}</el-descriptions-item>
