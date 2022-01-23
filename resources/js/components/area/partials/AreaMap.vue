@@ -162,7 +162,7 @@ export default {
             });
         },
         refresh() {
-            this.getAreas();git
+            this.getAreas();
         }
     },
 }

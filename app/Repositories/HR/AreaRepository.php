@@ -67,8 +67,19 @@ class AreaRepository extends Repository {
     public function updateArea($id, $request) {
 
         $data = $this->model()->find($id);
+
+        if(property_exists($request, 'coordinates')) {
+            $new_coodinates = [];
+            foreach($request->coordinates[0] as $coo) {
+                array_push($new_coodinates, [$coo->lat, $coo->lng]);
+            }
+            $data->coordinates = $new_coodinates;
+        }
+
         $data->name = $request->name;
-        $data->status = $request->status;
+
+        if(property_exists($request, 'status')) $data->status = $request->status;
+
         $data->color = $request->color;
         if($data->save()) {
             return $data;
@@ -97,6 +108,14 @@ class AreaRepository extends Repository {
 
             return $areas;
         }
+
+    }
+
+    public function getAreaById($id) {
+
+        $area = $this->model()->find($id);
+
+        return $area;
 
     }
 

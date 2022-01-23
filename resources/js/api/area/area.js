@@ -19,5 +19,8 @@ export default {
     },
     getAllAreas() {
         return axios.get('/area/get-all-areas')
+    },
+    getAreaById(id) {
+        return axios.get(`/area/get-area/${id}`)
     }
 }

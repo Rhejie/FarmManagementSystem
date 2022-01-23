@@ -40,7 +40,7 @@ export default {
     },
     data() {
         return {
-            zoom: 13,
+            zoom: 16,
             center: latLng(0, 0),
             url: 'https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=cac1c63e746741a79462820881e7f2c6',
             attribution: 'Farm Management',

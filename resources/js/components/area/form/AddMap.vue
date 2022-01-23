@@ -6,7 +6,8 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="page_title">ADD AREA</h1>
+                            <h1 class="page_title" v-if="type == 'update'">UPDATE AREA</h1>
+                            <h1 class="page_title" v-else>ADD AREA</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -41,7 +42,7 @@
                                 </div>
                             </div>
                             <div style="height: 700px; width: 100%">
-                                <l-map data="parent"  :zoom=13 :center="getArea">
+                                <l-map data="parent"  :zoom="zoom" :center="getArea">
                                     <l-control position="topleft">
                                         <button class="btn btn-default btn-sm" style="margin-bottom: 10px" @click="flipActive">
                                         {{ isCreate ? 'Deactivate' : 'Activate' }}
@@ -113,15 +114,28 @@ export default {
                 ],
             },
             loadingMap: false,
-            editArea: []
+            editArea: [],
+            coordin : {}
         }
     },
-    mounted() {
+    async mounted() {
+        if(!this.type) {
+            await this.getAreaById()
+        }
         this.getLocation()
     },
     created() {
         if(this.type == 'update' && this.model && this.model.id) {
-            this.polygons = this.model.coordinates
+            // let coor = this.model.coordinates.map(coor => {
+            //     return {lat : coor[0], lng : coor[1]}
+            // });
+            // this.form = {
+            //     name: this.model.name,
+            //     color: this.model.color,
+            // }
+            // this.polygons.push(coor)
+
+            this.getAreaById()
         }
     },
     computed: {
@@ -129,6 +143,17 @@ export default {
             return this.isCreate ? (ALL ^ DELETE) : NONE
         },
         getArea() {
+            if (this.type == 'update') {
+                this.zoom = 16
+                if(this.polygons.length > 0) {
+                    return latLng(this.polygons[0][0].lat, this.polygons[0][0].lng)
+                }
+            }
+            else if(this.id) {
+                if(this.polygons.length > 0) {
+                    return latLng(this.polygons[0][0].lat, this.polygons[0][0].lng)
+                }
+            }
             return latLng(this.coordinates.lat, this.coordinates.lng)
         }
     },
@@ -143,6 +168,22 @@ export default {
                 console.log(error);
             }
         },
+        async getAreaById() {
+            try {
+                this.zoom = 16
+                const res = await this.$API.Area.getAreaById(this.id);
+                let coor = res.data.coordinates.map(coor => {
+                    return {lat : coor[0], lng : coor[1]}
+                });
+                this.form = {
+                    name: res.data.name,
+                    color: res.data.color
+                }
+                this.polygons.push(coor);
+            } catch (error) {
+                console.log(error);
+            }
+        },
         flipActive() {
             this.isCreate = !this.isCreate;
         },
@@ -152,7 +193,7 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
             if (valid) {
-                if(this.mode == 'update') {
+                if(this.type == 'update' || this.id) {
                     this.updateArea();
                     return;
                 }
@@ -179,22 +220,57 @@ export default {
                 }
                 this.form.coordinates = this.polygons
                 const res = await this.$API.Area.storeArea(this.form)
-                this.$EventDispatcher.fire('NEW_DATA', res.data);
                 this.$notify({
                     title: 'Success',
                     message: 'Successfully added',
                     type: 'success'
                 });
                 this.resetForm('form');
+                this.$router.push({name: 'Area List'})
             } catch (error) {
                 console.log(error);
             }
         },
+        async updateArea() {
+            try {
+                if(this.polygons.length < 0) {
+                    this.$notify.error({
+                            title: 'Error',
+                            message: 'Draw and Area first'
+                        });
+                    return;
+                }
+                this.form.coordinates = this.polygons
+                const res = await this.$API.Area.updateArea(this.id,this.form)
+                this.$notify({
+                    title: 'Success',
+                    message: 'Successfully Updated',
+                    type: 'success'
+                });
+                this.$router.push({name: 'Area List'})
+            } catch (error) {
+                console.log(error);
+            }
+        }
     },
     watch: {
         polygons(val) {
             if(val.length > 1) {
                 this.polygons.splice(1, 1)
+            }
+        },
+        model(newVal, oldVal) {
+            if(newVal != oldVal && this.type == 'update') {
+                this.form = {
+                    name: newVal.name,
+                    color: newVal.color
+                }
+
+                let coor = newVal.coordinates.map(coor => {
+                    return {lat : coor[0], lng : coor[1]}
+                });
+
+                this.polygons.push(coor)
             }
         }
     }

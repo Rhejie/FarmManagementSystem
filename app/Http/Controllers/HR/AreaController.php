@@ -83,4 +83,11 @@ class AreaController extends Controller
 
         return response()->json($areas, 200);
     }
+
+    public function getArea($id) {
+
+        $area = $this->areaRepository->getAreaById($id);
+
+        return response()->json($area, 200);
+    }
 }
