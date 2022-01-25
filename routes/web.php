@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    if(Auth::user()->id) {
+    if(Auth::check()) {
         return view('home');
     }
     return view('auth.login');
