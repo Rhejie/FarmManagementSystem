@@ -44,6 +44,7 @@ class DashboardController extends Controller
 
         date_default_timezone_set('Asia/Manila');
 
+
         $date = Carbon::now()->format('Y-m-d');
 
         $employees = Attendance::where('date', $date)->count();
